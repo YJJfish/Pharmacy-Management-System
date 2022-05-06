@@ -1,0 +1,10 @@
+# jupyter notebook
+.ipynb_checkpoints
+
+# vscode & visual studio
+.vscode
+.vs
+*.vcxproj*
+
+# macOS
+.DS_Store
