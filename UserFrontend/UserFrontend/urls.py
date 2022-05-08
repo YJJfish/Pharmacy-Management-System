@@ -15,9 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
-from django.http import HttpResponse
 from django.views.generic import RedirectView
-from django.shortcuts import render
+
 
 from UserFrontend import views
 
@@ -28,6 +27,10 @@ urlpatterns = [
     path('trylogin/', views.TryLogin),
     path('contact/', views.ContactPage),
     path('about/', views.AboutPage),
+    path('search/', views.SearchPage),
+    path('account/', views.AccountPage),
+    path('profile/', views.ProfilePage),
+    path('bill/', views.BillPage),
 ]
 
 

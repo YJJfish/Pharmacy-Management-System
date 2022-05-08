@@ -1,6 +1,20 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
+    <script>
+        function Buy(Name, ID, Brand){
+            function BuyProduct(ID){
+                return true;
+            }
+            /*Call database*/
+            Ret = BuyProduct(ID);
+            if (Ret){
+                alert("Successfully added medicine " + Name + "(" + ID + " " + Brand + ")x1 to your shopping cart.");
+            }else{
+                alert("Failed to add medicine " + Name + "(" + ID + " " + Brand + ") to your shopping cart. Please refresh this page and see whether this product is available.");
+            }
+        }
+    </script>
 
 <head>
     <meta charset="utf-8">
@@ -33,501 +47,53 @@
     </header>
     <section class="text-center bg-light features-icons" style="height: 220px;margin: 0px;">
         <div class="col-xl-9 mx-auto position-relative">
-            <form class="search-form">
-                <div class="input-group"><span class="input-group-text"><i class="fa fa-search"></i></span><input class="form-control" type="text" placeholder="I am looking for.."><button class="btn btn-primary btn-lg" type="submit">Search </button></div>
+            <form class="search-form" action="/search/" method="post">
+                {% csrf_token %}
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                    <input class="form-control" type="search" name="SEARCH" placeholder="{% if SearchContent_ %}{{SearchContent_}}{% else %}I am looking for..{% endif %}">
+                    <button class="btn btn-primary btn-lg" type="submit">Search </button>
+                </div>
             </form>
         </div>
     </section>
     <section class="text-center bg-light testimonials">
         <div class="container">
             <div class="row product-list dev">
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-top-left">
+                {% for Item_ in ResultList_ %}
+                <div class="col-sm-6 col-md-4 product-item animation-element">
                     <div class="product-container">
                         <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
+                            <div class="col-md-12"><a class="product-image" href="/medicineinfo/{{Item_.0}}"><img src="{{Item_.5}}"></a></div>
                         </div>
                         <div class="row">
                             <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
+                                <h2><a href="/medicineinfo/{{Item_.0}}">{{Item_.2}}</a></h2>
+                            </div>
+                            <div class="col-8">
+                                {{Item_.0}} {{Item_.1}}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
+                                <p class="product-description">{{Item_.3}}</p>
                                 <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
                                     <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
+                                        <button class="btn btn-light" type="button" onclick="Buy('{{Item_.2}}', '{{Item_.0}}', '{{Item_.1}}')">Buy Now!</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="product-price">￥{{Item_.4}}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-rotate-clockwise">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-top-right">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-fade-slow">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-fade">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-fade-xslow">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-left">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-top">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-right">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-bottom-left">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-bottom">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-bottom-right">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-rotate-clockwise-180">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-rotate-counterclockwise">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-rotate-counterclockwise-180">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-right-rotate-counterclockwise">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-flip-x">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-left-rotate-clockwise">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-right-flip-x-y">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-flip-y">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element slide-left-flip-x-y">
-                    <div class="product-container">
-                        <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="#"><img src="assets/img/iphone6.jpg"></a></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
-                                <h2><a href="#">iPhone 6s</a></h2>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare sem sed nisl dignissim, facilisis dapibus lacus vulputate. Sed lacinia lacinia magna. </p>
-                                <div class="row">
-                                    <div class="col-6"><button class="btn btn-light" type="button">Buy Now!</button></div>
-                                    <div class="col-6">
-                                        <p class="product-price">$599.00 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
-    <section class="text-center text-white call-to-action" style="background:url(&quot;assets/img/background2.jpg&quot;) no-repeat center center;background-size:cover;">
+    <section class="text-center text-white call-to-action" style="background:url({% static 'img/background2.jpg' %}) no-repeat center center;background-size:cover;">
         <div class="overlay"></div>
     </section>
     <footer class="bg-light footer">
@@ -535,9 +101,9 @@
             <div class="row">
                 <div class="col-lg-6 text-center text-lg-start my-auto h-100">
                     <ul class="list-inline mb-2">
-                        <li class="list-inline-item"><a href="about.html">About</a></li>
+                        <li class="list-inline-item"><a href="/about">About</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
-                        <li class="list-inline-item"><a href="contact.html">Contact</a></li>
+                        <li class="list-inline-item"><a href="/contact">Contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -547,10 +113,10 @@
         <div class="container"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#menu"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"><i class="fa fa-th-list"></i></span></button>
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav flex-grow-1 justify-content-between">
-                    <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="index.html"><i class="fas fa-hospital apple-logo"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                    <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="/home"><i class="fas fa-hospital apple-logo"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
@@ -573,9 +139,9 @@
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
-                    <li class="nav-item"><a class="nav-link" href="account.html">Account</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/account">Account</a></li>
                     <li class="nav-item d-none d-xs-block d-md-block"></li>
-                    <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="bill.html"><i class="icon-basket"></i></a></li>
+                    <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="/bill"><i class="icon-basket"></i></a></li>
                 </ul>
             </div>
         </div>

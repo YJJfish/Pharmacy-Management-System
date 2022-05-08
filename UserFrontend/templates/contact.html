@@ -36,6 +36,7 @@
             <section class="features-boxed">
                 <section class="contact-clean">
                     <form method="post">
+                        {% csrf_token %}
                         <h2 class="text-center">Contact us</h2>
                         <div class="mb-3"><input class="form-control" type="text" name="name" placeholder="Name"></div>
                         <div class="mb-3"><input class="form-control" type="email" name="email" placeholder="Email"></div>

@@ -36,26 +36,26 @@
             <section class="features-boxed">
                 <div class="container">
                     <div class="intro">
-                        <h2 class="text-center">Welcome to the Pharmacy Website, &lt;UserName&gt;</h2>
+                        <h2 class="text-center">Welcome to the Pharmacy Website, {{UserName_}}</h2>
                         <p class="text-center">Manage your personal account.</p>
                     </div>
                     <div class="row justify-content-center features">
                         <div class="col-sm-6 col-md-5 col-lg-4 item">
                             <div class="box"><i class="fa fa-shopping-cart icon"></i>
                                 <h3 class="name">Shop</h3>
-                                <p class="description">Shop OTC online.</p><a class="learn-more" href="search.html">Enter »</a>
+                                <p class="description">Shop OTC online.</p><a class="learn-more" href="/search">Enter »</a>
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-5 col-lg-4 item">
                             <div class="box"><i class="fa fa-check-square-o icon"></i>
                                 <h3 class="name">Manage Prescriptions</h3>
-                                <p class="description">Manage prescriptions containing either medicines prescribed by your doctor or OTC shopped by yourself, and see about when and where to receive your medicine.</p><a class="learn-more" href="bill.html">Enter »</a>
+                                <p class="description">Manage prescriptions containing either medicines prescribed by your doctor or OTC shopped by yourself, and see about when and where to receive your medicine.</p><a class="learn-more" href="/bill">Enter »</a>
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-5 col-lg-4 item">
                             <div class="box"><i class="fa fa-user icon"></i>
                                 <h3 class="name">Manage Account</h3>
-                                <p class="description">Edit your profile and add or delete payment methods.</p><a class="learn-more" href="profile.html">Enter »</a>
+                                <p class="description">Edit your profile and add or delete payment methods.</p><a class="learn-more" href="/profile">Enter »</a>
                             </div>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
             </section>
         </div>
     </section>
-    <section class="text-center text-white call-to-action" style="background:url(&quot;assets/img/background2.jpg&quot;) no-repeat center center;background-size:cover;">
+    <section class="text-center text-white call-to-action" style="background:url({% static 'img/background2.jpg' %}) no-repeat center center;background-size:cover;">
         <div class="overlay"></div>
     </section>
     <footer class="bg-light footer">
@@ -71,9 +71,9 @@
             <div class="row">
                 <div class="col-lg-6 text-center text-lg-start my-auto h-100">
                     <ul class="list-inline mb-2">
-                        <li class="list-inline-item"><a href="about.html">About</a></li>
+                        <li class="list-inline-item"><a href="/about">About</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
-                        <li class="list-inline-item"><a href="contact.html">Contact</a></li>
+                        <li class="list-inline-item"><a href="/contact">Contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -83,10 +83,10 @@
         <div class="container"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#menu"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"><i class="fa fa-th-list"></i></span></button>
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav flex-grow-1 justify-content-between">
-                    <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="index.html"><i class="fas fa-hospital apple-logo"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                    <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="/home"><i class="fas fa-hospital apple-logo"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
@@ -109,9 +109,9 @@
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
-                    <li class="nav-item"><a class="nav-link" href="account.html">Account</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/account">Account</a></li>
                     <li class="nav-item d-none d-xs-block d-md-block"></li>
-                    <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="bill.html"><i class="icon-basket"></i></a></li>
+                    <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="/bill"><i class="icon-basket"></i></a></li>
                 </ul>
             </div>
         </div>

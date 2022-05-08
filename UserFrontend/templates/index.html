@@ -33,8 +33,13 @@
     </header>
     <section class="text-center bg-light features-icons">
         <div class="col-xl-9 mx-auto position-relative">
-            <form class="search-form">
-                <div class="input-group"><span class="input-group-text"><i class="fa fa-search"></i></span><input class="form-control" type="text" placeholder="I am looking for.."><button class="btn btn-primary btn-lg" type="submit">Search </button></div>
+            <form class="search-form" action="/search/" method="post">
+                {% csrf_token %}
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                    <input class="form-control" type="search" name="SEARCH" placeholder="I am looking for..">
+                    <button class="btn btn-primary btn-lg" type="submit">Search </button>
+                </div>
             </form>
         </div>
     </section>

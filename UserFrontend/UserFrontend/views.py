@@ -1,22 +1,10 @@
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render, redirect
 
-
-# 表单
-def search_form(request):
-    return render(request, 'search_form.html')
-
-#接收并处理搜索数据
-def Search(Request : HttpRequest):  
-    Request.encoding='utf-8'
-    ctx ={}
-    if Request.POST:
-        ctx['rlt'] = Request.POST['q']
-    return render(Request, "post.html", ctx)
-
 #Rendering home page
 #Render index.html or login.html, depending on whether the user has logged.
 def HomePage(Request : HttpRequest):
+    Request.encoding='utf-8'
     if Request.session.has_key('Logged') and Request.session['Logged']==True:
         return render(Request, 'index.html')
     else:
@@ -33,7 +21,6 @@ def TryLogin(Request : HttpRequest):
     NAME = Request.POST.get("NAME")
     PASSWORD = Request.POST.get("PASSWORD")
     REMEMBER = Request.POST.get('REMEMBER')
-    print(REMEMBER)
     Response = redirect("/home")
     if ValidateLogin(ID, NAME, PASSWORD):
         if REMEMBER:
@@ -53,3 +40,41 @@ def ContactPage(Request : HttpRequest):
 #About page
 def AboutPage(Request : HttpRequest):
     return render(Request, 'about.html')
+
+#Search page
+def SearchPage(Request : HttpRequest):
+    #This function searches the database and returns the result.
+    #You can replace it with functions you implemented by yourself.
+    def Search(SearchText : str):
+        Result = [
+            ["001","国药","头孢","头孢就酒，越喝越勇",25.0,"https://s2.loli.net/2022/05/06/Fp3MwJu1U8tbi96.png"],
+            ["002","国药","阿司匹林","解热镇痛",25.0,"https://s2.loli.net/2022/05/06/q7ulP6FDjtVOMQE.png"]
+        ]
+        return Result
+    Request.encoding='utf-8'
+    #If haven't logged in, redirect to home page
+    if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
+        return redirect("/home")
+    #Otherwise, search
+    if (Request.POST):
+        SEARCH = Request.POST.get("SEARCH")
+    else:
+        SEARCH = ""
+    RESULT = Search(SEARCH)
+    Context = {"SearchContent_" : SEARCH, "ResultList_" : RESULT}
+    return render(Request, "search.html", Context)
+
+#Account page
+def AccountPage(Request : HttpRequest):
+    Context = {"UserName_" : Request.session['NAME']}
+    return render(Request, "account.html", Context)
+
+#Profile page
+def ProfilePage(Request : HttpRequest):
+    Context = {"UserName_" : Request.session['NAME']}
+    return render(Request, "profile.html", Context)
+
+#Bill page
+def BillPage(Request : HttpRequest):
+    Context = {"UserName_" : Request.session['NAME']}
+    return render(Request, "bill.html", Context)
