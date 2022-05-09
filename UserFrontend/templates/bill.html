@@ -1,7 +1,53 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
+    <script>
+        /*Commit the current bill*/
+        function Checkout(UserID, BranchName){
+            function CommitBill(UserID, BranchName){
 
+            }
+            CommitBill(UserID, BranchName);
+            //Redirect
+            location = '/checkout/'+BranchName;
+        }
+        function SetItem(BillID, UserID, MediID, BranchName, Num){
+            function SetProduct(UserID, MediID, BranchName, Num){
+                return true;
+            }
+            /*Call database*/
+            Ret = SetProduct(UserID, MediID, BranchName, Num);
+            if (Ret){
+                //Get the corresponding element that displays sum
+                SumEle = document.getElementById(BillID+"_Sum");
+                //Get the element corresponding to this bill
+                BillEle = document.getElementById(BillID+"_Products");
+                //Get the element corresponding to the checkout button
+                CheckoutEle = document.getElementById(BillID+"_Checkout");
+                //If Num==0, delete the product
+                if (Num == 0){
+                    Div = document.getElementById(BillID+"_"+MediID);
+                    BillEle.removeChild(Div);
+                }
+                //Update sum
+                Sum = 0
+                for(var i = 0; i < BillEle.children.length; i++){
+                    Quantity = document.getElementById(BillEle.children[i].id+"_Quantity");
+                    Price = document.getElementById(BillEle.children[i].id+"_Price");
+                    Sum += Quantity.value*Price.innerHTML.substr(1);
+                }
+                SumEle.innerHTML = "Sum: ￥"+Sum;
+                //Enable or disable the checkout button
+                if (Sum == 0)
+                    CheckoutEle.setAttribute("disabled", "");
+                else
+                    CheckoutEle.removeAttribute("disabled");
+            }else{
+                alert("Failed to add medicine (ID: " + MediID + ") x" + Num + " to your shopping cart in " + BrandName + ". Please refresh this page.");
+                location.reload();
+            }
+        }
+    </script>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -32,218 +78,106 @@
         <div class="overlay" style="background: rgba(0,123,255,0.22);opacity: 1;"></div>
     </header>
     <section class="text-center bg-light features-icons">
-        <div class="content" style="border-style: solid;">
+        <div class="container">
+            <div class="row" style="padding: 20px;">
+                <div class="col-md-3">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label >Hospital Branch</label>
+                                <select  class="form-control" onchange="location = this.options[this.selectedIndex].value;">
+                                    {% for Item_ in BranchList_ %}
+                                        {% if Item_ == Selected_ %}
+                                            <option value="{{Item_}}" selected="selected">{{Item_}}</option>
+                                        {% else %}
+                                            <option value="{{Item_}}">{{Item_}}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                    </form>
+                </div>
+                <div class="col-md-3">
+                    <div></div>
+                </div>
+                <div class="col-md-3">
+                    <div></div>
+                </div>
+                <div class="col-md-3">
+                    <div></div>
+                </div>
+            </div>
+        </div>
+        {% for Bill_ in Bills_ %}
+        <div class="container">
+            <div class="content" style="border-style: solid;">
+            <div class="row" style="padding: 20px;"></div>
             <div class="row g-0">
                 <div class="col">
                     <div class="row">
                         <div class="col">
-                            <div class="items">
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{% static 'img/tech/image2.jpg' %}"></div>
+                            {% if Bill_.1 == "" %}
+                                <h2>OrderID: Unpaid</h2>
+                            {% else %}
+                                <h2>OrderID: {{Bill_.1}}</h2>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="row product-list dev" id="{{Bill_.1}}_Products">
+                                {% for Item_ in Bill_.0 %}
+                                <div class="col-sm-6 col-md-4 product-item animation-element" id="{{Bill_.1}}_{{Item_.0}}">
+                                    <div class="product-container">
+                                        <div class="row">
+                                            <div class="col-md-12"><a class="product-image" href="/medicineinfo/{{Selected_}}/{{Item_.0}}"><img src="{{Item_.5}}"></a></div>
                                         </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#">Lorem Ipsum dolor</a>
-                                            <div class="product-specs"></div>
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <h2><a href="/medicineinfo/{{Selected_}}/{{Item_.0}}">{{Item_.2}}</a></h2>
+                                            </div>
+                                            <div class="col-8">
+                                                {{Item_.0}} {{Item_.1}}
+                                            </div>
                                         </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="form-label d-none d-md-block" for="quantity">Quantity</label><input type="number" id="number-1" class="form-control quantity-input" value="1"></div>
-                                        <div class="col-6 col-md-2 price"><span>$120</span></div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <p class="product-description">{{Item_.3}}</p>
+                                                <div class="row">
+                                                    <div class="col-6 col-md-4 quantity">
+                                                        {% if Bill_.2 == -1 %}
+                                                            <input type="number" class="form-control quantity-input" value="{{Item_.6}}" id="{{Bill_.1}}_{{Item_.0}}_Quantity" onchange="SetItem('{{Bill_.1}}', '{{UserID_}}', '{{Item_.0}}', '{{Selected_}}', this.value)">
+                                                        {% else %}
+                                                            <input type="number" class="form-control quantity-input" value="{{Item_.6}}" id="{{Bill_.1}}_{{Item_.0}}_Quantity" readonly="readonly">
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="product-price" id="{{Bill_.1}}_{{Item_.0}}_Price">￥{{Item_.4}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{% static 'img/tech/image2.jpg' %}"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#">Lorem Ipsum dolor</a>
-                                            <div class="product-specs"></div>
-                                        </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="form-label d-none d-md-block" for="quantity">Quantity</label><input type="number" id="number-2" class="form-control quantity-input" value="1"></div>
-                                        <div class="col-6 col-md-2 price"><span>$120</span></div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{% static 'img/tech/image2.jpg' %}"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#">Lorem Ipsum dolor</a>
-                                            <div class="product-specs"></div>
-                                        </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="form-label d-none d-md-block" for="quantity">Quantity</label><input type="number" id="number-3" class="form-control quantity-input" value="1"></div>
-                                        <div class="col-6 col-md-2 price"><span>$120</span></div>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <h1>Sum: ${{Number}}</h1>
-                        </div>
-                    </div><button class="btn btn-primary btn-lg" type="button">Check out</button>
-                </div>
-            </div>
-        </div>
-        <div class="content" style="border-style: solid;">
-            <div class="row g-0">
-                <div class="col">
-                    <div class="row">
-                        <div class="col">
-                            <div class="items">
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{% static 'img/tech/image2.jpg' %}"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#">Lorem Ipsum dolor</a>
-                                            <div class="product-specs"></div>
-                                        </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="form-label d-none d-md-block" for="quantity">Quantity</label><input type="number" id="number-4" class="form-control quantity-input" value="1"></div>
-                                        <div class="col-6 col-md-2 price"><span>$120</span></div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{% static 'img/tech/image2.jpg' %}"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#">Lorem Ipsum dolor</a>
-                                            <div class="product-specs"></div>
-                                        </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="form-label d-none d-md-block" for="quantity">Quantity</label><input type="number" id="number-5" class="form-control quantity-input" value="1"></div>
-                                        <div class="col-6 col-md-2 price"><span>$120</span></div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{% static 'img/tech/image2.jpg' %}"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#">Lorem Ipsum dolor</a>
-                                            <div class="product-specs"></div>
-                                        </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="form-label d-none d-md-block" for="quantity">Quantity</label><input type="number" id="number-6" class="form-control quantity-input" value="1"></div>
-                                        <div class="col-6 col-md-2 price"><span>$120</span></div>
-                                    </div>
-                                </div>
-                            </div>
+                            <h1 id="{{Bill_.1}}_Sum">Sum: ￥{{Bill_.4}}</h1>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <h1>Sum: ${{Number}}</h1>
-                        </div>
-                    </div><button class="btn btn-primary btn-lg" type="button">Check out</button>
+                    {% if Bill_.2 == -1 %}
+                        <button class="btn btn-primary btn-lg" id="{{Bill_.1}}_Checkout" type="button" onclick="Checkout('{{UserID_}}', '{{Selected_}}')">Check out</button>
+                    {% else %}
+                        <button class="btn btn-success btn-lg" id="{{Bill_.1}}_Checkout" type="button" disabled="" >Queuing Number: {{Bill_.2}}. Counter No.{{Bill_.3}}</button>
+                    {% endif %}
                 </div>
             </div>
+            <div class="row" style="padding: 20px;"></div>
         </div>
-        <div class="content" style="border-style: solid;">
-            <div class="row g-0">
-                <div class="col">
-                    <div class="row">
-                        <div class="col">
-                            <div class="items">
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{% static 'img/tech/image2.jpg' %}"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#">Lorem Ipsum dolor</a>
-                                            <div class="product-specs"></div>
-                                        </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="form-label d-none d-md-block" for="quantity">Quantity</label><input type="number" id="number-7" class="form-control quantity-input" value="1"></div>
-                                        <div class="col-6 col-md-2 price"><span>$120</span></div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{% static 'img/tech/image2.jpg' %}"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#">Lorem Ipsum dolor</a>
-                                            <div class="product-specs"></div>
-                                        </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="form-label d-none d-md-block" for="quantity">Quantity</label><input type="number" id="number-8" class="form-control quantity-input" value="1"></div>
-                                        <div class="col-6 col-md-2 price"><span>$120</span></div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{% static 'img/tech/image2.jpg' %}"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#">Lorem Ipsum dolor</a>
-                                            <div class="product-specs"></div>
-                                        </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="form-label d-none d-md-block" for="quantity">Quantity</label><input type="number" id="number-9" class="form-control quantity-input" value="1"></div>
-                                        <div class="col-6 col-md-2 price"><span>$120</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <h1>Sum: ${{Number}}</h1>
-                        </div>
-                    </div><button class="btn btn-primary btn-lg disabled" type="button" disabled="">Queuing Number: {{Number}}. Counter No.{{Number}}</button>
-                </div>
-            </div>
         </div>
-        <div class="content" style="border-style: solid;">
-            <div class="row g-0">
-                <div class="col">
-                    <div class="row">
-                        <div class="col">
-                            <div class="items">
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{% static 'img/tech/image2.jpg' %}"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#">Lorem Ipsum dolor</a>
-                                            <div class="product-specs"></div>
-                                        </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="form-label d-none d-md-block" for="quantity">Quantity</label><input type="number" id="number-10" class="form-control quantity-input" value="1"></div>
-                                        <div class="col-6 col-md-2 price"><span>$120</span></div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{% static 'img/tech/image2.jpg' %}"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#">Lorem Ipsum dolor</a>
-                                            <div class="product-specs"></div>
-                                        </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="form-label d-none d-md-block" for="quantity">Quantity</label><input type="number" id="number-11" class="form-control quantity-input" value="1"></div>
-                                        <div class="col-6 col-md-2 price"><span>$120</span></div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{% static 'img/tech/image2.jpg' %}"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#">Lorem Ipsum dolor</a>
-                                            <div class="product-specs"></div>
-                                        </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="form-label d-none d-md-block" for="quantity">Quantity</label><input type="number" id="number-12" class="form-control quantity-input" value="1"></div>
-                                        <div class="col-6 col-md-2 price"><span>$120</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <h1>Sum: ${{Number}}</h1>
-                        </div>
-                    </div><button class="btn btn-primary btn-lg disabled" type="button" disabled="">Queuing Number: {{Number}}. Counter No.{{Number}}</button>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </section>
     <section class="text-center text-white call-to-action" style="background:url({% static 'img/background2.jpg' %}) no-repeat center center;background-size:cover;">
         <div class="overlay"></div>

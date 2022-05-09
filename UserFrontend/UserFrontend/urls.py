@@ -23,14 +23,17 @@ from UserFrontend import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', RedirectView.as_view(url='/home/')),
-    path("home/", views.HomePage),
+    path("login/", views.LoginPage),
+    re_path("home/*", views.HomePage),
     path('trylogin/', views.TryLogin),
     path('contact/', views.ContactPage),
     path('about/', views.AboutPage),
-    path('search/', views.SearchPage),
+    re_path('search/*', views.SearchPage),
     path('account/', views.AccountPage),
     path('profile/', views.ProfilePage),
-    path('bill/', views.BillPage),
+    re_path('bill/*', views.BillPage),
+    re_path("checkout/*", views.CheckoutPage),
+    re_path("medicineinfo/*", views.MedicineInfoPage),
 ]
 
 

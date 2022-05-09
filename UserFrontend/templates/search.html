@@ -2,16 +2,17 @@
 <!DOCTYPE html>
 <html>
     <script>
-        function Buy(Name, ID, Brand){
-            function BuyProduct(ID){
+        function AddItem(MediName, MediBrand, UserID, MediID, BranchName){
+            function AddProduct(UserID, MediID, BranchName, Num){
                 return true;
             }
             /*Call database*/
-            Ret = BuyProduct(ID);
+            Ret = AddProduct(UserID, MediID, BranchName, 1);
             if (Ret){
-                alert("Successfully added medicine " + Name + "(" + ID + " " + Brand + ")x1 to your shopping cart.");
+                alert("Successfully added medicine " + MediName + "(" + MediID + " " + MediBrand + ")x1 to your shopping cart in hospital " + BranchName + ".");
             }else{
-                alert("Failed to add medicine " + Name + "(" + ID + " " + Brand + ") to your shopping cart. Please refresh this page and see whether this product is available.");
+                alert("Failed to add medicine " + MediName + "(" + MediID + " " + MediBrand + ") to your shopping cart in hospital " + BranchName + ". Please refresh this page.");
+                location.reload();
             }
         }
     </script>
@@ -47,7 +48,34 @@
     </header>
     <section class="text-center bg-light features-icons" style="height: 220px;margin: 0px;">
         <div class="col-xl-9 mx-auto position-relative">
-            <form class="search-form" action="/search/" method="post">
+            <form class="search-form" action="/search/{{Selected_}}" method="post">
+                <div class="container">
+                    <div class="row" style="padding: 20px;">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label >Hospital Branch</label>
+                                <select  class="form-control" name="BRANCH" onchange="location = this.options[this.selectedIndex].value;">
+                                    {% for Item_ in BranchList_ %}
+                                        {% if Item_ == Selected_ %}
+                                            <option value="{{Item_}}" selected="selected">{{Item_}}</option>
+                                        {% else %}
+                                            <option value="{{Item_}}">{{Item_}}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div></div>
+                        </div>
+                        <div class="col-md-3">
+                            <div></div>
+                        </div>
+                        <div class="col-md-3">
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
                 {% csrf_token %}
                 <div class="input-group">
                     <span class="input-group-text"><i class="fa fa-search"></i></span>
@@ -64,11 +92,11 @@
                 <div class="col-sm-6 col-md-4 product-item animation-element">
                     <div class="product-container">
                         <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="/medicineinfo/{{Item_.0}}"><img src="{{Item_.5}}"></a></div>
+                            <div class="col-md-12"><a class="product-image" href="/medicineinfo/{{Selected_}}/{{Item_.0}}"><img src="{{Item_.5}}"></a></div>
                         </div>
                         <div class="row">
                             <div class="col-8">
-                                <h2><a href="/medicineinfo/{{Item_.0}}">{{Item_.2}}</a></h2>
+                                <h2><a href="/medicineinfo/{{Selected_}}/{{Item_.0}}">{{Item_.2}}</a></h2>
                             </div>
                             <div class="col-8">
                                 {{Item_.0}} {{Item_.1}}
@@ -79,7 +107,7 @@
                                 <p class="product-description">{{Item_.3}}</p>
                                 <div class="row">
                                     <div class="col-6">
-                                        <button class="btn btn-light" type="button" onclick="Buy('{{Item_.2}}', '{{Item_.0}}', '{{Item_.1}}')">Buy Now!</button>
+                                        <button class="btn btn-light" type="button" onclick="AddItem('{{Item_.2}}', '{{Item_.0}}', '{{UserID_}}', '{{Item_.1}}', '{{Selected_}}')">Buy Now!</button>
                                     </div>
                                     <div class="col-6">
                                         <p class="product-price">￥{{Item_.4}}</p>

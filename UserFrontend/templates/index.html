@@ -33,8 +33,35 @@
     </header>
     <section class="text-center bg-light features-icons">
         <div class="col-xl-9 mx-auto position-relative">
-            <form class="search-form" action="/search/" method="post">
+            <form class="search-form" action="/search/{{Selected_}}" method="post">
                 {% csrf_token %}
+                <div class="container">
+                    <div class="row" style="padding: 20px;">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label >Hospital Branch</label>
+                                <select  class="form-control" name="BRANCH" onchange="location = this.options[this.selectedIndex].value;">
+                                    {% for Item_ in BranchList_ %}
+                                        {% if Item_ == Selected_ %}
+                                            <option value="{{Item_}}" selected="selected">{{Item_}}</option>
+                                        {% else %}
+                                            <option value="{{Item_}}">{{Item_}}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div></div>
+                        </div>
+                        <div class="col-md-3">
+                            <div></div>
+                        </div>
+                        <div class="col-md-3">
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fa fa-search"></i></span>
                     <input class="form-control" type="search" name="SEARCH" placeholder="I am looking for..">
