@@ -39,28 +39,49 @@
                         <h2 class="text-center">Welcome to the Pharmacy Website, {{UserName_}}</h2>
                         <p class="text-center">Manage your personal account.</p>
                     </div>
-                    <div class="row justify-content-center features">
-                        <div class="col-sm-6 col-md-5 col-lg-4 item">
-                            <div class="box"><i class="fa fa-shopping-cart icon"></i>
-                                <h3 class="name">Shop</h3>
-                                <p class="description">Shop OTC online.</p><a class="learn-more" href="/search">Enter »</a>
+                </div>
+            </section>
+        </div>
+        <div class="container profile profile-view" id="profile">
+            <div class="row">
+                <div class="col-md-12 alert-col relative">
+                    <div class="alert alert-info alert-dismissible absolue center" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button><span>Profile save with success</span></div>
+                </div>
+            </div>
+            <form>
+                <div class="row profile-row">
+                    <div class="col-md-4 relative">
+                        <div class="avatar">
+                            <div class="avatar-bg center"></div>
+                        </div><input class="form-control form-control" type="file" name="avatar-file">
+                    </div>
+                    <div class="col-md-8">
+                        <h1>Profile </h1>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group mb-3"><label class="form-label">Firstname </label><input class="form-control" type="text" name="firstname"></div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group mb-3"><label class="form-label">Lastname </label><input class="form-control" type="text" name="lastname"></div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-5 col-lg-4 item">
-                            <div class="box"><i class="fa fa-check-square-o icon"></i>
-                                <h3 class="name">Manage Prescriptions</h3>
-                                <p class="description">Manage prescriptions containing either medicines prescribed by your doctor or OTC shopped by yourself, and see about when and where to receive your medicine.</p><a class="learn-more" href="/bill">Enter »</a>
+                        <div class="form-group mb-3"><label class="form-label">Email </label><input class="form-control" type="email" autocomplete="off" required="" name="email"></div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group mb-3"><label class="form-label">Password </label><input class="form-control" type="password" name="password" autocomplete="off" required=""></div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group mb-3"><label class="form-label">Confirm Password</label><input class="form-control" type="password" name="confirmpass" autocomplete="off" required=""></div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-5 col-lg-4 item">
-                            <div class="box"><i class="fa fa-user icon"></i>
-                                <h3 class="name">Manage Account</h3>
-                                <p class="description">Edit your profile and add or delete payment methods.</p><a class="learn-more" href="/profile">Enter »</a>
-                            </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12 content-right"><button class="btn btn-primary form-btn" type="submit">SAVE </button><button class="btn btn-danger form-btn" type="reset">CANCEL </button></div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </form>
         </div>
     </section>
     <section class="text-center text-white call-to-action" style="background:url({% static 'img/background2.jpg' %}) no-repeat center center;background-size:cover;">

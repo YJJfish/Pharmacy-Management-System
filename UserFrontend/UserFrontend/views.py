@@ -20,18 +20,8 @@ def HomePage(Request : HttpRequest):
      #If haven't logged in, redirect to login page
     if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
         return redirect("/login")
-    #Get all branch names
-    BranchList_ = GetHospitalBranch()
-    #Get the current selected branch name
-    if (Request.path[-1] != '/'):
-        Request.path = Request.path + "/"
-    if (Request.path == "/home/"):
-        return redirect("/home/" + BranchList_[0])
-    Selected_ = Request.path[6:-1]
-    if (not Selected_ in BranchList_):
-        raise Http404
     #Render
-    Context = {"BranchList_" : BranchList_, "Selected_" : Selected_}
+    Context = {"UserName_" : Request.session['NAME']}
     return render(Request, "index.html", Context)
     
 

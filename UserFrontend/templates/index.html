@@ -31,71 +31,38 @@
     <header class="text-center text-white masthead" style="background:url({% static 'img/background1.jpg' %} )no-repeat center center;background-size:cover;">
         <div class="overlay" style="background: rgba(0,123,255,0.22);opacity: 1;"></div>
     </header>
-    <section class="text-center bg-light features-icons">
-        <div class="col-xl-9 mx-auto position-relative">
-            <form class="search-form" action="/search/{{Selected_}}" method="post">
-                {% csrf_token %}
+    <section class="showcase">
+        <div class="container-fluid p-0">
+            <section class="features-boxed">
                 <div class="container">
-                    <div class="row" style="padding: 20px;">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label >Hospital Branch</label>
-                                <select  class="form-control" name="BRANCH" onchange="location = this.options[this.selectedIndex].value;">
-                                    {% for Item_ in BranchList_ %}
-                                        {% if Item_ == Selected_ %}
-                                            <option value="{{Item_}}" selected="selected">{{Item_}}</option>
-                                        {% else %}
-                                            <option value="{{Item_}}">{{Item_}}</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </select>
+                    <div class="intro">
+                        <h2 class="text-center">Welcome to the Pharmacy Website, {{UserName_}}</h2>
+                        <p class="text-center">Manage your personal account.</p>
+                    </div>
+                    <div class="row justify-content-center features">
+                        <div class="col-sm-6 col-md-5 col-lg-4 item">
+                            <div class="box"><i class="fa fa-shopping-cart icon"></i>
+                                <h3 class="name">Shop</h3>
+                                <p class="description">Shop OTC online.</p><a class="learn-more" href="/search">Enter »</a>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div></div>
+                        <div class="col-sm-6 col-md-5 col-lg-4 item">
+                            <div class="box"><i class="fa fa-check-square-o icon"></i>
+                                <h3 class="name">Manage Prescriptions</h3>
+                                <p class="description">Manage prescriptions containing either medicines prescribed by your doctor or OTC shopped by yourself, and see about when and where to receive your medicine.</p><a class="learn-more" href="/bill">Enter »</a>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <div></div>
-                        </div>
-                        <div class="col-md-3">
-                            <div></div>
+                        <div class="col-sm-6 col-md-5 col-lg-4 item">
+                            <div class="box"><i class="fa fa-user icon"></i>
+                                <h3 class="name">Manage Account</h3>
+                                <p class="description">Edit your profile and add or delete payment methods.</p><a class="learn-more" href="/account">Enter »</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fa fa-search"></i></span>
-                    <input class="form-control" type="search" name="SEARCH" placeholder="I am looking for..">
-                    <button class="btn btn-primary btn-lg" type="submit">Search </button>
-                </div>
-            </form>
+            </section>
         </div>
     </section>
-    <section class="showcase">
-        <div class="container-fluid p-0">
-            <div class="row g-0">
-                <div class="col-lg-6 text-white order-lg-2 showcase-img" style="background-image:url({% static 'img/bg-showcase-1.jpg' %});"><span></span></div>
-                <div class="col-lg-6 my-auto order-lg-1 showcase-text">
-                    <h2>Medicine 1</h2>
-                    <p class="lead mb-0">Description for medicine 1</p>
-                </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 text-white showcase-img" style="background-image:url({% static 'img/bg-showcase-2.jpg' %});"><span></span></div>
-                <div class="col-lg-6 my-auto order-lg-1 showcase-text">
-                    <h2>Medicine 2</h2>
-                    <p class="lead mb-0">Description for medicine 2</p>
-                </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 text-white order-lg-2 showcase-img" style="background-image:url({% static 'img/bg-showcase-3.jpg' %});"><span></span></div>
-                <div class="col-lg-6 my-auto order-lg-1 showcase-text">
-                    <h2>Medicine 3</h2>
-                    <p class="lead mb-0">Description for medicine 3</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="text-center bg-light testimonials"></section>
     <section class="text-center text-white call-to-action" style="background:url({% static 'img/background2.jpg' %}) no-repeat center center;background-size:cover;">
         <div class="overlay"></div>
     </section>
