@@ -1,22 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-    <script>
-        function AddItem(MediName, MediBrand, UserID, MediID, BranchName){
-            function AddProduct(UserID, MediID, BranchName, Num){
-                return true;
-            }
-            /*Call database*/
-            Ret = AddProduct(UserID, MediID, BranchName, 1);
-            if (Ret){
-                alert("成功向购物车添加药品 " + MediName + "(" + MediID + " " + MediBrand + ")一份，院区：" + BranchName + ".");
-            }else{
-                alert("药品添加失败 " + MediName + "(" + MediID + " " + MediBrand + ")，院区：" + BranchName + "。请刷新页面");
-                location.reload();
-            }
-        }
-    </script>
-
+    <script src="{% static 'pharmacy_user/js/DataBaseInteraction.js' %}"></script>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -92,7 +77,7 @@
                 <div class="col-sm-6 col-md-4 product-item animation-element">
                     <div class="product-container">
                         <div class="row">
-                            <div class="col-md-12"><a class="product-image" href="{% url 'medicineinfo' %}{{Selected_}}/{{Item_.0}}"><img src="{{Item_.5}}"></a></div>
+                            <div class="col-md-12"><a class="product-image" href="{% url 'medicineinfo' %}{{Selected_}}/{{Item_.0}}"><img src="{{Item_.7}}"></a></div>
                         </div>
                         <div class="row">
                             <div class="col-8">
@@ -107,10 +92,10 @@
                                 <p class="product-description">{{Item_.3}}</p>
                                 <div class="row">
                                     <div class="col-6">
-                                        <button class="btn btn-light" type="button" onclick="AddItem('{{Item_.2}}', '{{Item_.0}}', '{{UserID_}}', '{{Item_.1}}', '{{Selected_}}')">立即购买</button>
+                                        <button class="btn btn-light" type="button" onclick="AddItem('{{UserID_}}', '{{Selected_}}', '{{Item_.0}}', '{{Item_.1}}', '{{Item_.2}}')">加入购物车</button>
                                     </div>
                                     <div class="col-6">
-                                        <p class="product-price">￥{{Item_.4}}</p>
+                                        <p class="product-price">￥{{Item_.6}}</p>
                                     </div>
                                 </div>
                             </div>

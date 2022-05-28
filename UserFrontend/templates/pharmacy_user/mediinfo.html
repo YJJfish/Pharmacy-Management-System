@@ -1,21 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-    <script>
-        function AddItem(MediName, MediBrand, UserID, MediID, BranchName){
-            function AddProduct(UserID, MediID, BranchName, Num){
-                return true;
-            }
-            /*Call database*/
-            Ret = AddProduct(UserID, MediID, BranchName, 1);
-            if (Ret){
-                alert("成功向购物车添加药品 " + MediName + "(" + MediID + " " + MediBrand + ")一份，院区：" + BranchName + ".");
-            }else{
-                alert("药品添加失败 " + MediName + "(" + MediID + " " + MediBrand + ")，院区：" + BranchName + "。请刷新页面");
-                location.reload();
-            }
-        }
-    </script>
+    <script src="{% static 'pharmacy_user/js/DataBaseInteraction.js' %}"></script>
 
 <head>
     <meta charset="utf-8">
@@ -49,8 +35,8 @@
     <section class="text-center bg-light testimonials">
         <div class="container">
             <div class="row product-list dev">
-                <div class="col-sm-6 col-md-4 product-item animation-element"></div>
-                <div class="col-sm-6 col-md-4 product-item animation-element">
+                <div class="col-sm-6 col-md-3 product-item animation-element"></div>
+                <div class="col-sm-6 col-md-6 product-item animation-element">
                     <div class="product-container">
                         <div class="row">
                             <div class="col-md-12"><a class="product-image"><img src="{{MediInfo_.7}}"></a></div>
@@ -80,7 +66,7 @@
                                 <div class="row">
                                     <p></p>
                                     <div class="col-6">
-                                        <button class="btn btn-light" type="button" onclick="AddItem('{{MediInfo_.2}}', '{{MediInfo_.0}}', '{{UserID_}}', '{{MediInfo_.1}}', '{{Selected_}}')">Buy Now!</button>
+                                        <button class="btn btn-light" type="button" onclick="AddItem('{{UserID_}}', '{{Selected_}}', '{{MediInfo_.0}}', '{{MediInfo_.1}}', '{{MediInfo_.2}}')">加入购物车</button>
                                     </div>
                                     <div class="col-6">
                                         <p class="product-price">￥{{MediInfo_.6}}</p>
@@ -90,7 +76,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-4 product-item animation-element"></div>
+                <div class="col-sm-6 col-md-3 product-item animation-element"></div>
             </div>
         </div>
     </section>
@@ -115,7 +101,7 @@
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav flex-grow-1 justify-content-between">
                     <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="{% url 'home' %}"><i class="fas fa-hospital apple-logo"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">主页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">首页</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">关于</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">联系我们</a></li>
                     <li class="nav-item"></li>
