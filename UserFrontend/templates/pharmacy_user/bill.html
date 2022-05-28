@@ -51,7 +51,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Pharmacy</title>
+    <title>账单 - 药房</title>
     <link rel="stylesheet" href="{% static 'pharmacy_user/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400|Roboto:300,400,700">
@@ -83,7 +83,7 @@
                 <div class="col-md-3">
                         <form class="form-inline">
                             <div class="form-group">
-                                <label >Hospital Branch</label>
+                                <label >院区</label>
                                 <select  class="form-control" onchange="location = '{% url 'bill' %}'+this.options[this.selectedIndex].value;+'/'">
                                     {% for Item_ in BranchList_ %}
                                         {% if Item_ == Selected_ %}
@@ -116,9 +116,9 @@
                     <div class="row">
                         <div class="col">
                             {% if Bill_.1 == "" %}
-                                <h2>OrderID: Unpaid</h2>
+                                <h2>订单号: 未支付</h2>
                             {% else %}
-                                <h2>OrderID: {{Bill_.1}}</h2>
+                                <h2>订单号: {{Bill_.1}}</h2>
                             {% endif %}
                         </div>
                     </div>
@@ -164,13 +164,13 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <h1 id="{{Bill_.1}}_Sum">Sum: ￥{{Bill_.4}}</h1>
+                            <h1 id="{{Bill_.1}}_Sum">总价: ￥{{Bill_.4}}</h1>
                         </div>
                     </div>
                     {% if Bill_.2 == -1 %}
-                        <button class="btn btn-primary btn-lg" id="{{Bill_.1}}_Checkout" type="button" onclick="Checkout('{{UserID_}}', '{{Selected_}}')">Check out</button>
+                        <button class="btn btn-primary btn-lg" id="{{Bill_.1}}_Checkout" type="button" onclick="Checkout('{{UserID_}}', '{{Selected_}}')">支付</button>
                     {% else %}
-                        <button class="btn btn-success btn-lg" id="{{Bill_.1}}_Checkout" type="button" disabled="" >Queuing Number: {{Bill_.2}}. Counter No.{{Bill_.3}}</button>
+                        <button class="btn btn-success btn-lg" id="{{Bill_.1}}_Checkout" type="button" disabled="" >排队号: {{Bill_.2}}. 柜台号 {{Bill_.3}}</button>
                     {% endif %}
                 </div>
             </div>
@@ -187,9 +187,9 @@
             <div class="row">
                 <div class="col-lg-6 text-center text-lg-start my-auto h-100">
                     <ul class="list-inline mb-2">
-                        <li class="list-inline-item"><a href="{% url 'about' %}">About</a></li>
+                        <li class="list-inline-item"><a href="{% url 'about' %}">关于</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
-                        <li class="list-inline-item"><a href="{% url 'contact' %}">Contact</a></li>
+                        <li class="list-inline-item"><a href="{% url 'contact' %}">联系我们</a></li>
                     </ul>
                 </div>
             </div>
@@ -200,9 +200,9 @@
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav flex-grow-1 justify-content-between">
                     <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="{% url 'home' %}"><i class="fas fa-hospital apple-logo"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">关于</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">联系我们</a></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
@@ -225,7 +225,7 @@
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'account' %}">Account</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account' %}">账号</a></li>
                     <li class="nav-item d-none d-xs-block d-md-block"></li>
                     <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="{% url 'bill' %}"><i class="icon-basket"></i></a></li>
                 </ul>
