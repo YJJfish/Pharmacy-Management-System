@@ -9,9 +9,9 @@
             /*Call database*/
             Ret = AddProduct(UserID, MediID, BranchName, 1);
             if (Ret){
-                alert("Successfully added medicine " + MediName + "(" + MediID + " " + MediBrand + ")x1 to your shopping cart in hospital " + BranchName + ".");
+                alert("成功向购物车添加药品 " + MediName + "(" + MediID + " " + MediBrand + ")一份，院区：" + BranchName + ".");
             }else{
-                alert("Failed to add medicine " + MediName + "(" + MediID + " " + MediBrand + ") to your shopping cart in hospital " + BranchName + ". Please refresh this page.");
+                alert("药品添加失败 " + MediName + "(" + MediID + " " + MediBrand + ")，院区：" + BranchName + "。请刷新页面");
                 location.reload();
             }
         }
@@ -20,7 +20,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Pharmacy</title>
+    <title>药品信息 - 药房</title>
     <link rel="stylesheet" href="{% static 'pharmacy_user/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400|Roboto:300,400,700">
@@ -53,25 +53,37 @@
                 <div class="col-sm-6 col-md-4 product-item animation-element">
                     <div class="product-container">
                         <div class="row">
-                            <div class="col-md-12"><a class="product-image"><img src="{{MediInfo_.5}}"></a></div>
+                            <div class="col-md-12"><a class="product-image"><img src="{{MediInfo_.7}}"></a></div>
                         </div>
                         <div class="row">
                             <div class="col-8">
-                                <h2><a>{{MediInfo_.2}}</a></h2>
+                                <h2><a>药品名称：{{MediInfo_.2}}</a></h2>
                             </div>
                             <div class="col-8">
-                                {{MediInfo_.0}} {{MediInfo_.1}}
+                                <strong>药品编号：</strong>{{MediInfo_.0}} 
+                            </div>
+                            <div class="col-8">
+                                <strong>生产厂商：</strong>{{MediInfo_.1}} 
+                            </div>
+                            <div class="col-8">
+                                <strong>药品说明：</strong>{{MediInfo_.3}} 
+                            </div>
+                            <div class="col-8">
+                                <strong>用法用量：</strong>{{MediInfo_.4}} 
+                            </div>
+                            <div class="col-8">
+                                <strong>禁用人群：</strong>{{MediInfo_.5}} 
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <p class="product-description">{{MediInfo_.3}}</p>
                                 <div class="row">
+                                    <p></p>
                                     <div class="col-6">
                                         <button class="btn btn-light" type="button" onclick="AddItem('{{MediInfo_.2}}', '{{MediInfo_.0}}', '{{UserID_}}', '{{MediInfo_.1}}', '{{Selected_}}')">Buy Now!</button>
                                     </div>
                                     <div class="col-6">
-                                        <p class="product-price">￥{{MediInfo_.4}}</p>
+                                        <p class="product-price">￥{{MediInfo_.6}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -90,22 +102,22 @@
             <div class="row">
                 <div class="col-lg-6 text-center text-lg-start my-auto h-100">
                     <ul class="list-inline mb-2">
-                        <li class="list-inline-item"><a href="{% url 'about' %}">About</a></li>
+                        <li class="list-inline-item"><a href="{% url 'about' %}">关于</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
-                        <li class="list-inline-item"><a href="{% url 'contact' %}">Contact</a></li>
+                        <li class="list-inline-item"><a href="{% url 'contact' %}">联系我们</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </footer>
     <nav class="navbar navbar-dark navbar-expand-md fixed-top bg-dark navbar--apple">
-        <div class="container"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#menu"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"><i class="fa fa-th-list"></i></span></button>
+        <div class="container"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#menu"><span class="visually-hidden">切换导航</span><span class="navbar-toggler-icon"><i class="fa fa-th-list"></i></span></button>
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav flex-grow-1 justify-content-between">
                     <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="{% url 'home' %}"><i class="fas fa-hospital apple-logo"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">主页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">关于</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">联系我们</a></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
@@ -128,7 +140,7 @@
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'account' %}">Account</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account' %}">账号</a></li>
                     <li class="nav-item d-none d-xs-block d-md-block"></li>
                     <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="{% url 'bill' %}{{Selected_}}"><i class="icon-basket"></i></a></li>
                 </ul>
