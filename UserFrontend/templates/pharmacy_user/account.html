@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Pharmacy</title>
+    <title>账号 - 药房</title>
     <link rel="stylesheet" href="{% static 'pharmacy_user/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400|Roboto:300,400,700">
@@ -36,8 +36,8 @@
             <section class="features-boxed">
                 <div class="container">
                     <div class="intro">
-                        <h2 class="text-center">Welcome to the Pharmacy Website, {{UserName_}}</h2>
-                        <p class="text-center">Manage your personal account.</p>
+                        <h2 class="text-center">欢迎来到药房, {{UserName_}}</h2>
+                        <p class="text-center">管理您的个人账号信息</p>
                     </div>
                 </div>
             </section>
@@ -56,28 +56,28 @@
                         </div><input class="form-control form-control" type="file" name="avatar-file">
                     </div>
                     <div class="col-md-8">
-                        <h1>Profile </h1>
+                        <h1>个人信息 </h1>
                         <hr>
                         <div class="row">
                             <div class="col-sm-12 col-md-6">
-                                <div class="form-group mb-3"><label class="form-label">Firstname </label><input class="form-control" type="text" name="firstname"></div>
+                                <div class="form-group mb-3"><label class="form-label">名 </label><input class="form-control" type="text" name="firstname"></div>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <div class="form-group mb-3"><label class="form-label">Lastname </label><input class="form-control" type="text" name="lastname"></div>
+                                <div class="form-group mb-3"><label class="form-label">姓 </label><input class="form-control" type="text" name="lastname"></div>
                             </div>
                         </div>
-                        <div class="form-group mb-3"><label class="form-label">Email </label><input class="form-control" type="email" autocomplete="off" required="" name="email"></div>
+                        <div class="form-group mb-3"><label class="form-label">邮箱 </label><input class="form-control" type="email" autocomplete="off" required="" name="email"></div>
                         <div class="row">
                             <div class="col-sm-12 col-md-6">
-                                <div class="form-group mb-3"><label class="form-label">Password </label><input class="form-control" type="password" name="password" autocomplete="off" required=""></div>
+                                <div class="form-group mb-3"><label class="form-label">密码 </label><input class="form-control" type="password" name="password" autocomplete="off" required=""></div>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <div class="form-group mb-3"><label class="form-label">Confirm Password</label><input class="form-control" type="password" name="confirmpass" autocomplete="off" required=""></div>
+                                <div class="form-group mb-3"><label class="form-label">确认密码</label><input class="form-control" type="password" name="confirmpass" autocomplete="off" required=""></div>
                             </div>
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-md-12 content-right"><button class="btn btn-primary form-btn" type="submit">SAVE </button><button class="btn btn-danger form-btn" type="reset">CANCEL </button></div>
+                            <div class="col-md-12 content-right"><button class="btn btn-primary form-btn" type="submit">保存 </button><button class="btn btn-danger form-btn" type="reset">取消 </button></div>
                         </div>
                     </div>
                 </div>
@@ -92,9 +92,9 @@
             <div class="row">
                 <div class="col-lg-6 text-center text-lg-start my-auto h-100">
                     <ul class="list-inline mb-2">
-                        <li class="list-inline-item"><a href="{% url 'about' %}">About</a></li>
+                        <li class="list-inline-item"><a href="{% url 'about' %}">关于</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
-                        <li class="list-inline-item"><a href="{% url 'contact' %}">Contact</a></li>
+                        <li class="list-inline-item"><a href="{% url 'contact' %}">联系我们</a></li>
                     </ul>
                 </div>
             </div>
@@ -105,9 +105,9 @@
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav flex-grow-1 justify-content-between">
                     <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="{% url 'home' %}"><i class="fas fa-hospital apple-logo"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">关于</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">联系我们</a></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
@@ -130,7 +130,7 @@
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'account' %}">Account</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account' %}">账号</a></li>
                     <li class="nav-item d-none d-xs-block d-md-block"></li>
                     <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="{% url 'bill' %}"><i class="icon-basket"></i></a></li>
                 </ul>
