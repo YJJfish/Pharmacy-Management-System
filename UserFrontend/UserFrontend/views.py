@@ -3,9 +3,24 @@ from django.shortcuts import render, redirect
 import qrcode
 import base64
 from io import BytesIO
+import socket
+import json
+import time
+
+"""ServerID = '127.0.0.1'
+ServerPort = 8080
+Socket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+Socket.connect((ServerID, ServerPort))"""
 
 #Get all the hospital branches from the database
-def GetHospitalBranch():
+def GetHospitalBranch(Request : HttpRequest):
+    """Package = {
+        "Action" : "GetBranchList",
+        "UserID" : Request.session['ID'],
+        "Branch" : ""
+    }
+    Socket.send(json.dumps(Package).encode())
+    return eval(Socket.recv(1024).decode())["BranchList"]"""
     return ["Branch1", "Branch2", "Branch3", "Branch4"]
 
 #Rendering the log page
@@ -71,7 +86,7 @@ def SearchPage(Request : HttpRequest):
     if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
         return redirect("/home")
     #Get all branch names
-    BranchList_ = GetHospitalBranch()
+    BranchList_ = GetHospitalBranch(Request)
     #Get the current selected branch name
     if (Request.path[-1] != '/'):
         Request.path = Request.path + "/"
@@ -131,7 +146,7 @@ def BillPage(Request : HttpRequest):
     if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
         return redirect("/home")
     #Get all branch names
-    BranchList_ = GetHospitalBranch()
+    BranchList_ = GetHospitalBranch(Request)
     #Get the current selected branch name
     if (Request.path[-1] != '/'):
         Request.path = Request.path + "/"
@@ -172,7 +187,7 @@ def CheckoutPage(Request : HttpRequest):
     if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
         return redirect("/home")
     #Get all branch names
-    BranchList_ = GetHospitalBranch()
+    BranchList_ = GetHospitalBranch(Request)
     #Get the current selected branch name
     if (Request.path[-1] != '/'):
         Request.path = Request.path + "/"
