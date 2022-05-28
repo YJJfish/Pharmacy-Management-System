@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Pharmacy</title>
+    <title>登录 - 药房</title>
     <link rel="stylesheet" href="{% static 'pharmacy_user/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400|Roboto:300,400,700">
@@ -31,13 +31,13 @@
     <header class="text-center text-white masthead" style="background:url({% static 'pharmacy_user/img/background1.jpg' %} )no-repeat center center;background-size:cover;">
         <div class="overlay" style="background: rgba(0,123,255,0.22);opacity: 1;">
             <nav class="navbar navbar-dark navbar-expand-md fixed-top bg-dark navbar--apple">
-                <div class="container"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#menu"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"><i class="fa fa-th-list"></i></span></button>
+                <div class="container"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#menu"><span class="visually-hidden">切换导航</span><span class="navbar-toggler-icon"><i class="fa fa-th-list"></i></span></button>
                     <div class="collapse navbar-collapse" id="menu">
                         <ul class="navbar-nav flex-grow-1 justify-content-between">
                             <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="{% url 'home' %}"><i class="fas fa-hospital apple-logo"></i></a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">首页</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">关于</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">联系我们</a></li>
                             <li class="nav-item"></li>
                             <li class="nav-item"></li>
                             <li class="nav-item"></li>
@@ -56,14 +56,14 @@
                         <p class="profile-name-card"> </p>
                         <form class="form-signin" action="{% url 'trylogin' %}" method="post">
                             {% csrf_token %}
-                            <input class="form-control" type="text" id="inputID" name="ID" required="" placeholder="ID Number" autofocus="">
-                            <input class="form-control" type="text" id="inputName" name="NAME" required="" placeholder="Name" autofocus="">
-                            <input class="form-control" type="password" id="inputPassword" name="PASSWORD" required="" placeholder="Password">
+                            <input class="form-control" type="text" id="inputID" name="ID" required="" placeholder="ID" autofocus="">
+                            <input class="form-control" type="text" id="inputName" name="NAME" required="" placeholder="用户名" autofocus="">
+                            <input class="form-control" type="password" id="inputPassword" name="密码" required="" placeholder="Password">
                             <div class="checkbox">
-                                <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-4" name="REMEMBER"><label class="form-check-label" for="formCheck-4">Remember me</label></div>
+                                <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-4" name="REMEMBER"><label class="form-check-label" for="formCheck-4">记住我</label></div>
                             </div>
-                            <button class="btn btn-primary btn-lg d-block btn-signin w-100" type="submit">Sign in</button>
-                        </form><a class="forgot-password" href="{% url 'login' %}">Forgot your password?</a>
+                            <button class="btn btn-primary btn-lg d-block btn-signin w-100" type="submit">登录</button>
+                        </form><a class="forgot-password" href="{% url 'login' %}">忘记密码?</a>
                     </div>
                 </div>
             </div>
@@ -75,22 +75,22 @@
                 <div class="col-lg-4">
                     <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
                         <div class="d-flex features-icons-icon"><i class="icon-book-open m-auto text-primary" data-bss-hover-animate="pulse"></i></div>
-                        <h3>View Prescribed Medicines</h3>
-                        <p class="lead mb-0">View&nbsp; the list of medicines prescribed by your doctor.</p>
+                        <h3>查看处方药单</h3>
+                        <p class="lead mb-0">查看医生开具的处方药单</p>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
                         <div class="d-flex features-icons-icon"><i class="icon-basket m-auto text-primary" data-bss-hover-animate="pulse"></i></div>
-                        <h3>Shop Over-The-Counter Medicines</h3>
-                        <p class="lead mb-0">Purchase OTC medicines online by yourself.</p>
+                        <h3>在线购买非处方药</h3>
+                        <p class="lead mb-0">网上商城自行购买非处方药</p>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
                         <div class="d-flex features-icons-icon"><i class="icon-clock m-auto text-primary" data-bss-hover-animate="pulse"></i></div>
-                        <h3>Calling and Queuing System</h3>
-                        <p class="lead mb-0">See about when and where to get your medicines.</p>
+                        <h3>排队叫号系统</h3>
+                        <p class="lead mb-0">查看药品领取单号及地点</p>
                     </div>
                 </div>
             </div>
@@ -102,9 +102,9 @@
             <div class="row">
                 <div class="col-lg-6 text-center text-lg-start my-auto h-100">
                     <ul class="list-inline mb-2">
-                        <li class="list-inline-item"><a href="{% url 'about' %}">About</a></li>
+                        <li class="list-inline-item"><a href="{% url 'about' %}">关于</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
-                        <li class="list-inline-item"><a href="{% url 'contact' %}">Contact</a></li>
+                        <li class="list-inline-item"><a href="{% url 'contact' %}">联系我们</a></li>
                     </ul>
                 </div>
             </div>
