@@ -9,9 +9,9 @@
             /*Call database*/
             Ret = AddProduct(UserID, MediID, BranchName, 1);
             if (Ret){
-                alert("Successfully added medicine " + MediName + "(" + MediID + " " + MediBrand + ")x1 to your shopping cart in hospital " + BranchName + ".");
+                alert("成功向购物车添加药品 " + MediName + "(" + MediID + " " + MediBrand + ")一份，院区：" + BranchName + ".");
             }else{
-                alert("Failed to add medicine " + MediName + "(" + MediID + " " + MediBrand + ") to your shopping cart in hospital " + BranchName + ". Please refresh this page.");
+                alert("药品添加失败 " + MediName + "(" + MediID + " " + MediBrand + ")，院区：" + BranchName + "。请刷新页面");
                 location.reload();
             }
         }
@@ -20,7 +20,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Pharmacy</title>
+    <title>商城 - 药房</title>
     <link rel="stylesheet" href="{% static 'pharmacy_user/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400|Roboto:300,400,700">
@@ -53,7 +53,7 @@
                     <div class="row" style="padding: 20px;">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label >Hospital Branch</label>
+                                <label >院区</label>
                                 <select  class="form-control" name="BRANCH" onchange="location = '{% url 'search' %}'+this.options[this.selectedIndex].value;+'/'">
                                     {% for Item_ in BranchList_ %}
                                         {% if Item_ == Selected_ %}
@@ -79,8 +79,8 @@
                 {% csrf_token %}
                 <div class="input-group">
                     <span class="input-group-text"><i class="fa fa-search"></i></span>
-                    <input class="form-control" type="search" name="SEARCH" placeholder="{% if SearchContent_ %}{{SearchContent_}}{% else %}I am looking for..{% endif %}">
-                    <button class="btn btn-primary btn-lg" type="submit">Search </button>
+                    <input class="form-control" type="search" name="SEARCH" placeholder="{% if SearchContent_ %}{{SearchContent_}}{% else %}我要查找 ... {% endif %}">
+                    <button class="btn btn-primary btn-lg" type="submit">搜索 </button>
                 </div>
             </form>
         </div>
@@ -107,7 +107,7 @@
                                 <p class="product-description">{{Item_.3}}</p>
                                 <div class="row">
                                     <div class="col-6">
-                                        <button class="btn btn-light" type="button" onclick="AddItem('{{Item_.2}}', '{{Item_.0}}', '{{UserID_}}', '{{Item_.1}}', '{{Selected_}}')">Buy Now!</button>
+                                        <button class="btn btn-light" type="button" onclick="AddItem('{{Item_.2}}', '{{Item_.0}}', '{{UserID_}}', '{{Item_.1}}', '{{Selected_}}')">立即购买</button>
                                     </div>
                                     <div class="col-6">
                                         <p class="product-price">￥{{Item_.4}}</p>
@@ -129,22 +129,22 @@
             <div class="row">
                 <div class="col-lg-6 text-center text-lg-start my-auto h-100">
                     <ul class="list-inline mb-2">
-                        <li class="list-inline-item"><a href="{% url 'about' %}">About</a></li>
+                        <li class="list-inline-item"><a href="{% url 'about' %}">关于</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
-                        <li class="list-inline-item"><a href="{% url 'contact' %}">Contact</a></li>
+                        <li class="list-inline-item"><a href="{% url 'contact' %}">联系我们</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </footer>
     <nav class="navbar navbar-dark navbar-expand-md fixed-top bg-dark navbar--apple">
-        <div class="container"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#menu"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"><i class="fa fa-th-list"></i></span></button>
+        <div class="container"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#menu"><span class="visually-hidden">切换导航</span><span class="navbar-toggler-icon"><i class="fa fa-th-list"></i></span></button>
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav flex-grow-1 justify-content-between">
                     <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="{% url 'home' %}"><i class="fas fa-hospital apple-logo"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">关于</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">联系我们</a></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
@@ -167,7 +167,7 @@
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'account' %}">Account</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account' %}">账号</a></li>
                     <li class="nav-item d-none d-xs-block d-md-block"></li>
                     <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="{% url 'bill' %}{{Selected_}}"><i class="icon-basket"></i></a></li>
                 </ul>
