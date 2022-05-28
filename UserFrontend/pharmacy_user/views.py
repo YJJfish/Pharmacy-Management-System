@@ -133,12 +133,6 @@ def BillPage(Request : HttpRequest, Selected_ : str = ""):
         raise Http404
     #Get the bills
     Bills_ = GetShoppingCart(Request.session['ID'], Selected_)
-    #Calculate sum
-    for Bill_ in Bills_:
-        Sum = 0
-        for Item_ in Bill_[0]:
-            Sum += Item_[6]*Item_[8]
-        Bill_.append("{:.2f}".format(Sum))
     #Return the webpage
     Context = {"BranchList_" : BranchList_, "Selected_" : Selected_, "Bills_" : Bills_, "UserID_" : Request.session['ID']}
     return render(Request, "pharmacy_user/bill.html", Context)
@@ -202,3 +196,32 @@ def MedicineInfoPage(Request : HttpRequest, Selected_ : str = "", MediID : str =
         raise Http404
     Context = {"MediInfo_" : MediInfo_, "Selected_" : Selected_, "UserID_" : Request.session['ID']}
     return render(Request, "pharmacy_user/mediinfo.html", Context)
+
+
+
+def AddItem(Request : HttpRequest):
+    if (Request.method != "POST"):
+        return Http404
+    Data = json.loads(Request.body.decode("utf-8"))
+    UserID=Data.get("UserID")
+    MediID=Data.get("MediID")
+    BranchName=Data.get("BranchName")
+    return HttpResponse(1)
+
+def SetItem(Request : HttpRequest):
+    if (Request.method != "POST"):
+        return Http404
+    Data = json.loads(Request.body.decode("utf-8"))
+    UserID=Data.get("UserID")
+    MediID=Data.get("MediID")
+    BranchName=Data.get("BranchName")
+    Num=Data.get("Num")
+    return HttpResponse(1)
+
+def CommitBill(Request : HttpRequest):
+    if (Request.method != "POST"):
+        return Http404
+    Data = json.loads(Request.body.decode("utf-8"))
+    UserID=Data.get("UserID")
+    BranchName=Data.get("BranchName")
+    return HttpResponse(1)

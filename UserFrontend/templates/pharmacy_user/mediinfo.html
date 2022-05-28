@@ -1,6 +1,10 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
+    <script>
+        var AddItemURL = "{% url 'additem' %}";
+        var CSRFToken = '{{ csrf_token }}';
+    </script>
     <script src="{% static 'pharmacy_user/js/DataBaseInteraction.js' %}"></script>
 
 <head>

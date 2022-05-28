@@ -1,8 +1,13 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-    <script src="{% static 'pharmacy_user/js/DataBaseInteraction.js' %}"></script>
 <head>
+    <script>
+        var AddItemURL = "{% url 'additem' %}";
+        var CSRFToken = '{{ csrf_token }}';
+    </script>
+    <script src="{% static 'pharmacy_user/js/DataBaseInteraction.js' %}"></script>
+    
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>商城 - 药房</title>
