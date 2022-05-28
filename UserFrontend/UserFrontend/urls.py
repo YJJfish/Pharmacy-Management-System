@@ -22,21 +22,8 @@ from UserFrontend import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', RedirectView.as_view(url='/home/')),
-    path("login/", views.LoginPage),
-    re_path("home/*", views.HomePage),
-    path('trylogin/', views.TryLogin),
-    path('contact/', views.ContactPage),
-    path('about/', views.AboutPage),
-    re_path('search/*', views.SearchPage),
-    path('account/', views.AccountPage),
-    path('profile/', views.ProfilePage),
-    re_path('bill/*', views.BillPage),
-    re_path("checkout/*", views.CheckoutPage),
-    re_path("medicineinfo/*", views.MedicineInfoPage),
+    path('pharmacy_user/', include('pharmacy_user.urls')),
 ]
-
-
 
 # Use static() to add url mapping to serve static files during development (only)
 from django.conf import settings
