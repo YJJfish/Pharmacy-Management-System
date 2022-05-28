@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Pharmacy</title>
+    <title>支付 - 药房</title>
     <link rel="stylesheet" href="{% static 'pharmacy_user/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400|Roboto:300,400,700">
@@ -46,22 +46,22 @@
             <div class="row">
                 <div class="col-lg-6 text-center text-lg-start my-auto h-100">
                     <ul class="list-inline mb-2">
-                        <li class="list-inline-item"><a href="{% url 'about' %}">About</a></li>
+                        <li class="list-inline-item"><a href="{% url 'about' %}">关于</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
-                        <li class="list-inline-item"><a href="{% url 'contact' %}">Contact</a></li>
+                        <li class="list-inline-item"><a href="{% url 'contact' %}">联系我们</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </footer>
     <nav class="navbar navbar-dark navbar-expand-md fixed-top bg-dark navbar--apple">
-        <div class="container"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#menu"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"><i class="fa fa-th-list"></i></span></button>
+        <div class="container"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#menu"><span class="visually-hidden">切换导航</span><span class="navbar-toggler-icon"><i class="fa fa-th-list"></i></span></button>
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav flex-grow-1 justify-content-between">
                     <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="{% url 'home' %}"><i class="fas fa-hospital apple-logo"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">关于</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">联系我们</a></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
@@ -84,7 +84,7 @@
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'account' %}">Account</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account' %}">账号</a></li>
                     <li class="nav-item d-none d-xs-block d-md-block"></li>
                     <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="{% url 'bill' %}{{Selected_}}"><i class="icon-basket"></i></a></li>
                 </ul>
