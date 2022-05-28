@@ -176,8 +176,12 @@ def CheckoutPage(Request : HttpRequest, Selected_ : str = ""):
 def MedicineInfoPage(Request : HttpRequest, Selected_ : str = "", MediID : str = ""):
     def GetMediInfo(MediID : str, BranchName : str):
         Result = [
-            ["001","国药","头孢","头孢就酒，越喝越勇",25.0,"https://s2.loli.net/2022/05/06/Fp3MwJu1U8tbi96.png"],
-            ["002","国药","阿司匹林","解热镇痛",25.0,"https://s2.loli.net/2022/05/06/q7ulP6FDjtVOMQE.png"]
+            # ["001","国药","头孢","头孢就酒，越喝越勇",25.0,"https://s2.loli.net/2022/05/06/Fp3MwJu1U8tbi96.png"],
+            # ["002","国药","阿司匹林","解热镇痛",25.0,"https://s2.loli.net/2022/05/06/q7ulP6FDjtVOMQE.png"]
+            ["001","国药","头孢","头孢就酒，越喝越勇","口服。成人服用的常规剂量为一次0.1g，一日3次", \
+            "对本品有休克史者禁用。对青霉素或头孢菌素有过敏史者慎用",25.0,"https://s2.loli.net/2022/05/06/Fp3MwJu1U8tbi96.png"],
+            ["002","国药","阿司匹林","解热镇痛","口服。肠溶片应饭前用适量水送服", \
+            "对阿司匹林或其它水杨酸盐，或药品的任何其它成份过敏者禁用",25.0,"https://s2.loli.net/2022/05/06/q7ulP6FDjtVOMQE.png"]
         ]
         MediID = int(MediID)
         if MediID == 1:
