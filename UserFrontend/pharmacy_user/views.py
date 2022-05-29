@@ -4,22 +4,37 @@ from django.shortcuts import render, redirect, reverse
 import qrcode
 import base64
 from io import BytesIO
-import socket
 import json
-import time
 import jpype
 
-JavaClassPath = "../DatabaseBackend/se-pharmacy/target/classes/"
+
+JavaClassPath = "../DatabaseBackend/se-pharmacy/bin/src/main/java/"
+
 if (not jpype.isJVMStarted()):
     jpype.startJVM("-ea", classpath=[JavaClassPath])
-JavaApp = jpype.JClass("com.example.MyJDBC")
+    JavaAppClass = jpype.JClass("com.example.MyJDBC")
 
+#One instance per thread
+JavaApp = JavaAppClass()
 
-
-
-#Get all the hospital branches from the database
-def GetHospitalBranch(Request : HttpRequest):
-    return ["Branch1", "Branch2", "Branch3", "Branch4", "解放路院区"]
+#Database interface
+def getAllBranch():
+    print(str(JavaApp.getAllBranch()))
+    return eval(str(JavaApp.getAllBranch()))
+def searchMedicine(SearchContent : str, BranchName : str):
+    return eval(str(JavaApp.searchMedicine(SearchContent, BranchName)))
+def queryMedicine(MediID : str, BranchName : str):
+    return eval(str(JavaApp.searchMedicine(MediID, BranchName)))
+def getShoppingCart(UserID : str, BranchName : str):
+    return eval(str(JavaApp.getShoppingCart(UserID, BranchName)))
+def setShoppingCart(UserID : str, MediID : str, BranchName : str, Num : int):
+    return int(JavaApp.setShoppingCart(UserID, MediID, BranchName, Num))
+def addShoppingCart(UserID : str, MediID : str, BranchName : str, Num : int):
+    return int(JavaApp.addShoppingCart(UserID, MediID, BranchName, Num))
+def deleteShoppingCart(UserID : str, MediID : str, BranchName : str, Num : int):
+    return int(JavaApp.deleteShoppingCart(UserID, MediID, BranchName, Num))
+def commitBill(UserID : str, BranchName : str):
+    return int(JavaApp.commitBill(UserID, BranchName))
 
 #Rendering the log page
 def LoginPage(Request : HttpRequest):
@@ -71,20 +86,12 @@ def AboutPage(Request : HttpRequest):
 
 #Search page
 def SearchPage(Request : HttpRequest, Selected_ : str = ""):
-    #This function searches the database and returns the result.
-    #You can replace it with functions you implemented by yourself.
-    def Search(SearchText : str, BranchName : str):
-        Result = [
-            ["001","国药","头孢","头孢就酒，越喝越勇","一日三次","三高人群",25.0,"https://s2.loli.net/2022/05/06/Fp3MwJu1U8tbi96.png",10],
-            ["002","国药","阿司匹林","解热镇痛","一日三次","三高人群",25.0,"https://s2.loli.net/2022/05/06/q7ulP6FDjtVOMQE.png",10]
-        ]
-        return Result
     Request.encoding='utf-8'
     #If haven't logged in, redirect to home page
     if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
         return redirect("home")
     #Get all branch names
-    BranchList_ = GetHospitalBranch(Request)
+    BranchList_ = getAllBranch()
     #Get the current selected branch name
     if (Selected_ == ""):
         return redirect(reverse("search") + BranchList_[0])
@@ -95,7 +102,7 @@ def SearchPage(Request : HttpRequest, Selected_ : str = ""):
         SearchContent_ = Request.POST.get("SEARCH")
     else:
         SearchContent_ = ""
-    ResultList_ = Search(SearchContent_, Selected_)
+    ResultList_ = searchMedicine(SearchContent_, Selected_)
     Context = {"BranchList_" : BranchList_, "Selected_" : Selected_, "SearchContent_" : SearchContent_, "ResultList_" : ResultList_, "UserID_" : Request.session['ID']}
     return render(Request, "pharmacy_user/search.html", Context)
 
@@ -110,37 +117,19 @@ def AccountPage(Request : HttpRequest):
 
 #Bill page
 def BillPage(Request : HttpRequest, Selected_ : str = ""):
-    #Get all the bills corresponding to "UserID" and "BranchName"
-    def GetShoppingCart(UserID, BranchName):
-        Bill1Item = [
-            ["001","国药","头孢","头孢就酒，越喝越勇","一日三次","三高人群",25.0,"https://s2.loli.net/2022/05/06/Fp3MwJu1U8tbi96.png", 5,False],
-            ["002","国药","阿司匹林","解热镇痛","一日三次","三高人群",25.0,"https://s2.loli.net/2022/05/06/q7ulP6FDjtVOMQE.png", 10,False],
-            ["003","国药","处方阿司匹林","解热镇痛","一日三次","三高人群",25.0,"https://s2.loli.net/2022/05/06/q7ulP6FDjtVOMQE.png", 10,True],
-        ]
-        Bill2Item = [
-            ["001","国药","头孢","头孢就酒，越喝越勇","一日三次","三高人群",25.0,"https://s2.loli.net/2022/05/06/Fp3MwJu1U8tbi96.png", 20,False],
-            ["002","国药","阿司匹林","解热镇痛","一日三次","三高人群",25.0,"https://s2.loli.net/2022/05/06/q7ulP6FDjtVOMQE.png", 2,False]
-        ]
-        Bill3Item = [
-            ["002","国药","阿司匹林","解热镇痛","一日三次","三高人群",25.0,"https://s2.loli.net/2022/05/06/q7ulP6FDjtVOMQE.png", 5,False],
-            ["001","国药","头孢","头孢就酒，越喝越勇","一日三次","三高人群",25.0,"https://s2.loli.net/2022/05/06/Fp3MwJu1U8tbi96.png", 6,False]
-            
-        ]
-        Bills = [[Bill1Item, "", "2022-5-28", -1, -1], [Bill2Item, "U14bTQFS", "2022-5-1", 59, 3], [Bill3Item, "I12bSDBA", "2019-1-1", 121, 6]]
-        return Bills
     Request.encoding='utf-8'
     #If haven't logged in, redirect to home page
     if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
         return redirect("home")
     #Get all branch names
-    BranchList_ = GetHospitalBranch(Request)
+    BranchList_ = getAllBranch()
     #Get the current selected branch name
     if (Selected_ == ""):
         return redirect(reverse("bill") + BranchList_[0])
     if (not Selected_ in BranchList_):
         raise Http404
     #Get the bills
-    Bills_ = GetShoppingCart(Request.session['ID'], Selected_)
+    Bills_ = getShoppingCart(Request.session['ID'], Selected_)
     #Return the webpage
     Context = {"BranchList_" : BranchList_, "Selected_" : Selected_, "Bills_" : Bills_, "UserID_" : Request.session['ID']}
     return render(Request, "pharmacy_user/bill.html", Context)
@@ -165,7 +154,7 @@ def CheckoutPage(Request : HttpRequest, Selected_ : str = ""):
     if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
         return redirect("home")
     #Get all branch names
-    BranchList_ = GetHospitalBranch(Request)
+    BranchList_ = getAllBranch()
     #Get the current selected branch name
     if (not Selected_ in BranchList_):
         raise Http404
@@ -176,30 +165,16 @@ def CheckoutPage(Request : HttpRequest, Selected_ : str = ""):
 
 #MedicineInfo page
 def MedicineInfoPage(Request : HttpRequest, Selected_ : str = "", MediID : str = ""):
-    def GetMediInfo(MediID : str, BranchName : str):
-        Result = [
-            ["001","国药","头孢","头孢就酒，越喝越勇","口服。成人服用的常规剂量为一次0.1g，一日3次", \
-            "对本品有休克史者禁用。对青霉素或头孢菌素有过敏史者慎用",25.0,"https://s2.loli.net/2022/05/06/Fp3MwJu1U8tbi96.png",10],
-            ["002","国药","阿司匹林","解热镇痛","口服。肠溶片应饭前用适量水送服", \
-            "对阿司匹林或其它水杨酸盐，或药品的任何其它成份过敏者禁用",25.0,"https://s2.loli.net/2022/05/06/q7ulP6FDjtVOMQE.png",20]
-        ]
-        MediID = int(MediID)
-        if MediID == 1:
-            return Result[0]
-        elif MediID == 2:
-            return Result[1]
-        else:
-            return None
     Request.encoding='utf-8'
     #If haven't logged in, redirect to home page
     if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
         return redirect("home")
     #Get all branch names
-    BranchList_ = GetHospitalBranch(Request)
+    BranchList_ = getAllBranch()
     #Get the current selected branch name
     if (not Selected_ in BranchList_):
         raise Http404
-    MediInfo_ = GetMediInfo(MediID, Selected_)
+    MediInfo_ = queryMedicine(MediID, Selected_)
     if (MediInfo_ == None):
         raise Http404
     Context = {"MediInfo_" : MediInfo_, "Selected_" : Selected_, "UserID_" : Request.session['ID']}
@@ -214,7 +189,7 @@ def AddItem(Request : HttpRequest):
     UserID=Data.get("UserID")
     MediID=Data.get("MediID")
     BranchName=Data.get("BranchName")
-    return HttpResponse(1)
+    return HttpResponse(addShoppingCart(UserID, MediID, BranchName, 1))
 
 def SetItem(Request : HttpRequest):
     if (Request.method != "POST"):
@@ -224,7 +199,7 @@ def SetItem(Request : HttpRequest):
     MediID=Data.get("MediID")
     BranchName=Data.get("BranchName")
     Num=Data.get("Num")
-    return HttpResponse(1)
+    return HttpResponse(setShoppingCart(UserID, MediID, BranchName, Num))
 
 def CommitBill(Request : HttpRequest):
     if (Request.method != "POST"):
@@ -232,4 +207,4 @@ def CommitBill(Request : HttpRequest):
     Data = json.loads(Request.body.decode("utf-8"))
     UserID=Data.get("UserID")
     BranchName=Data.get("BranchName")
-    return HttpResponse(1)
+    return HttpResponse(commitBill(UserID, BranchName))
