@@ -7,6 +7,13 @@ from io import BytesIO
 import socket
 import json
 import time
+import jpype
+
+JavaClassPath = "../../DatabaseBackend/se-pharmacy/target/classes/"
+jpype.startJVM("-ea", classpath=[JavaClassPath])
+JavaApp = jpype.JClass("com.example.App")
+
+
 
 
 #Get all the hospital branches from the database
