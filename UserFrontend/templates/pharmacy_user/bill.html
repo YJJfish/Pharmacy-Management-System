@@ -69,25 +69,30 @@
         </div>
         <div id="BillContainer">
         {% for Bill_ in Bills_ %}
-        <div class="container" id="{{Bill_.1}}_Bill">
+        <div class="container" id="{{Bill_.2}}_Bill">
             <div class="content" style="border-style: solid;">
             <div class="row" style="padding: 20px;"></div>
             <div class="row g-0">
                 <div class="col">
                     <div class="row">
-                        <div class="col">
+                        <div class="col" style="text-align:center;">
                             {% if Bill_.3 == -1 %}
-                                <h2>订单号: {{Bill_.1}}(未支付)</h2>
+                                <h2>订单号: {{Bill_.2}}(未支付)</h2>
                             {% else %}
-                                <h2>订单号: {{Bill_.1}}</h2>
+                                <h2>订单号: {{Bill_.2}}</h2>
                             {% endif %}
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col" style="text-align:right;padding-right:30px">
+                            <h5>{{Bill_.1}}</h5>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col">
-                            <div class="row product-list dev" id="{{Bill_.1}}_Products">
+                            <div class="row product-list dev" id="{{Bill_.2}}_Products">
                                 {% for Item_ in Bill_.0 %}
-                                <div class="col-sm-6 col-md-4 product-item animation-element" id="{{Bill_.1}}_{{Item_.0}}">
+                                <div class="col-sm-6 col-md-4 product-item animation-element" id="{{Bill_.2}}_{{Item_.0}}">
                                     <div class="product-container">
                                         <div class="row">
                                             <div class="col-md-12"><a class="product-image" href="{% url 'medicineinfo' %}{{Selected_}}/{{Item_.0}}"><img src="{{Item_.7}}"></a></div>
@@ -106,14 +111,17 @@
                                                 <div class="row">
                                                     <div class="col-6 col-md-4 quantity">
                                                         {% if Bill_.3 == -1 and not Item_.9 %}
-                                                            <input type="number" class="form-control quantity-input" min="0" oninput="this.value = 
-                                                            !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null" value="{{Item_.8}}" id="{{Bill_.1}}_{{Item_.0}}_Quantity" onchange="SetItem('{{Bill_.1}}', '{{UserID_}}', '{{Item_.0}}', '{{Selected_}}', this.value)">
+                                                            <input type="number" class="form-control quantity-input" min="0"
+                                                            oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null"
+                                                            value="{{Item_.8}}" id="{{Bill_.2}}_{{Item_.0}}_Quantity"
+                                                            onchange="SetItem('{{Bill_.1}}', '{{UserID_}}', '{{Item_.0}}', '{{Selected_}}', this.value)"
+                                                            autocomplete="off">
                                                         {% else %}
-                                                            <input type="number" class="form-control quantity-input" value="{{Item_.8}}" id="{{Bill_.1}}_{{Item_.0}}_Quantity" readonly="readonly">
+                                                            <input type="number" class="form-control quantity-input" value="{{Item_.8}}" id="{{Bill_.2}}_{{Item_.0}}_Quantity" readonly="readonly" autocomplete="off">
                                                         {% endif %}
                                                     </div>
                                                     <div class="col-6">
-                                                        <p class="product-price" id="{{Bill_.1}}_{{Item_.0}}_Price">￥{{Item_.6}}</p>
+                                                        <p class="product-price" id="{{Bill_.2}}_{{Item_.0}}_Price">￥{{Item_.6}}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -126,13 +134,13 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <h1 id="{{Bill_.1}}_Sum">总价: ￥</h1>
+                            <h1 id="{{Bill_.2}}_Sum">总价: ￥</h1>
                         </div>
                     </div>
                     {% if Bill_.3 == -1 %}
-                        <button class="btn btn-primary btn-lg" id="{{Bill_.1}}_Checkout" type="button" onclick="Checkout('{{UserID_}}', '{{Selected_}}')">支付</button>
+                        <button class="btn btn-primary btn-lg" id="{{Bill_.2}}_Checkout" type="button" onclick="Checkout('{{UserID_}}', '{{Selected_}}')">支付</button>
                     {% else %}
-                        <button class="btn btn-success btn-lg" id="{{Bill_.1}}_Checkout" type="button" disabled="" >排队号: {{Bill_.3}}. 柜台号 {{Bill_.4}}</button>
+                        <button class="btn btn-success btn-lg" id="{{Bill_.2}}_Checkout" type="button" disabled="" >排队号: {{Bill_.3}}. 柜台号 {{Bill_.4}}</button>
                     {% endif %}
                 </div>
             </div>

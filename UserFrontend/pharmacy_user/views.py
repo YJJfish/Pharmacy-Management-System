@@ -135,7 +135,7 @@ def BillPage(Request : HttpRequest, Selected_ : str = ""):
     if (not Selected_ in BranchList_):
         raise Http404
     #Get the bills
-    Bills_ = getShoppingCart(Request.session['ID'], Selected_)
+    Bills_ = getShoppingCart(Request.session['ID'], Selected_)[::-1]
     #Return the webpage
     Context = {"BranchList_" : BranchList_, "Selected_" : Selected_, "Bills_" : Bills_, "UserID_" : Request.session['ID']}
     return render(Request, "pharmacy_user/bill.html", Context)
