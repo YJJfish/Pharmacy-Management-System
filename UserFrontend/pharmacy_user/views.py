@@ -12,9 +12,9 @@ JavaClassPath = "../DatabaseBackend/se-pharmacy/bin/src/main/java/"
 
 if (not jpype.isJVMStarted()):
     jpype.startJVM("-ea", classpath=[JavaClassPath])
-    JavaAppClass = jpype.JClass("com.example.MyJDBC")
 
 #One instance per thread
+JavaAppClass = jpype.JClass("com.example.MyJDBC")
 JavaApp = JavaAppClass()
 
 #Database interface
