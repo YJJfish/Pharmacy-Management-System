@@ -9,9 +9,10 @@ import jpype
 
 
 JavaClassPath = "../DatabaseBackend/se-pharmacy/bin/src/main/java/"
+JarPath = "../DatabaseBackend/se-pharmacy/bin/src/main/java/mysql-connector-java-8.0.27.jar"
 
 if (not jpype.isJVMStarted()):
-    jpype.startJVM("-ea", classpath=[JavaClassPath])
+    jpype.startJVM("-ea", classpath=[JavaClassPath, JarPath])
 
 #One instance per thread
 JavaAppClass = jpype.JClass("com.example.MyJDBC")
@@ -19,19 +20,24 @@ JavaApp = JavaAppClass()
 
 #Database interface
 def getAllBranch():
-    print(str(JavaApp.getAllBranch()))
     return eval(str(JavaApp.getAllBranch()))
 def searchMedicine(SearchContent : str, BranchName : str):
     return eval(str(JavaApp.searchMedicine(SearchContent, BranchName)))
 def queryMedicine(MediID : str, BranchName : str):
-    return eval(str(JavaApp.searchMedicine(MediID, BranchName)))
+    return eval(str(JavaApp.queryMedicine(MediID, BranchName)))[0]
 def getShoppingCart(UserID : str, BranchName : str):
     return eval(str(JavaApp.getShoppingCart(UserID, BranchName)))
 def setShoppingCart(UserID : str, MediID : str, BranchName : str, Num : int):
+    if (not isinstance(Num, int)):
+        Num = int(Num)
     return int(JavaApp.setShoppingCart(UserID, MediID, BranchName, Num))
 def addShoppingCart(UserID : str, MediID : str, BranchName : str, Num : int):
+    if (not isinstance(Num, int)):
+        Num = int(Num)
     return int(JavaApp.addShoppingCart(UserID, MediID, BranchName, Num))
 def deleteShoppingCart(UserID : str, MediID : str, BranchName : str, Num : int):
+    if (not isinstance(Num, int)):
+        Num = int(Num)
     return int(JavaApp.deleteShoppingCart(UserID, MediID, BranchName, Num))
 def commitBill(UserID : str, BranchName : str):
     return int(JavaApp.commitBill(UserID, BranchName))
