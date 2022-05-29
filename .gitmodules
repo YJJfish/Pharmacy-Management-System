@@ -1,6 +1,3 @@
 [submodule "DatabaseBackend/se-pharmacy"]
 	path = DatabaseBackend/se-pharmacy
 	url = git@github.com:zju-stu-lizheng/se-pharmacy.git
-[submodule "ManagerFrontend"]
-	path = ManagerFrontend
-	url = https://github.com/LuminaDCIX/ManagerFrontend.git

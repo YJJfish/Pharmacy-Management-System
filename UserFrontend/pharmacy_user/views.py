@@ -9,9 +9,10 @@ import json
 import time
 import jpype
 
-JavaClassPath = "../../DatabaseBackend/se-pharmacy/target/classes/"
-jpype.startJVM("-ea", classpath=[JavaClassPath])
-JavaApp = jpype.JClass("com.example.App")
+JavaClassPath = "../DatabaseBackend/se-pharmacy/target/classes/"
+if (not jpype.isJVMStarted()):
+    jpype.startJVM("-ea", classpath=[JavaClassPath])
+JavaApp = jpype.JClass("com.example.MyJDBC")
 
 
 
