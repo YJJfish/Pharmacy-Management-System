@@ -11,3 +11,13 @@
 
 
 ![img](https://s2.loli.net/2022/04/13/5Vbsl8uTDtekRZy.jpg)
+
+### 分支管理
+
+每个子模块分别对应一个分支：
+
+* management：管理
+* reservation：预约(患者)
+* record：病历管理(医生）
+* pharmacy：药房系统(独立)
+* review：医生评价系统(独立）
