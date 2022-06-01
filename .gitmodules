@@ -1,0 +1,3 @@
+[submodule "pharmacy/DatabaseBackend/se-pharmacy"]
+	path = pharmacy/DatabaseBackend/se-pharmacy
+	url = git@github.com:zju-stu-lizheng/se-pharmacy.git
