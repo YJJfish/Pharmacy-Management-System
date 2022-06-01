@@ -14,11 +14,11 @@ JarPath = "../DatabaseBackend/se-pharmacy/bin/src/main/java/mysql-connector-java
 if (not jpype.isJVMStarted()):
     jpype.startJVM("-ea", classpath=[JavaClassPath, JarPath])
 
-#One instance per thread
+# One instance per thread
 JavaAppClass = jpype.JClass("com.example.MyJDBC")
 JavaApp = JavaAppClass()
 
-#Database interface
+# Database interface
 def getAllBranch():
     return eval(str(JavaApp.getAllBranch()))
 def searchMedicine(SearchContent : str, BranchName : str):
@@ -42,27 +42,27 @@ def deleteShoppingCart(UserID : str, MediID : str, BranchName : str, Num : int):
 def commitBill(UserID : str, BranchName : str):
     return int(JavaApp.commitBill(UserID, BranchName))
 
-#Rendering the log page
+# Rendering the log page
 def LoginPage(Request : HttpRequest):
     Request.encoding='utf-8'
     return render(Request, 'pharmacy_user/login.html') 
 
-#Rendering home page
-#Render index.html or login.html, depending on whether the user has logged.
+# Rendering home page
+# Render index.html or login.html, depending on whether the user has logged.
 def HomePage(Request : HttpRequest):
     Request.encoding='utf-8'
-     #If haven't logged in, redirect to login page
+     # If haven't logged in, redirect to login page
     if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
         return redirect("login")
-    #Render
+    # Render
     Context = {"UserName_" : Request.session['NAME']}
     return render(Request, "pharmacy_user/index.html", Context)
     
 
-#Try to log in
+# Try to log in
 def TryLogin(Request : HttpRequest):
-    #Validate the information. You can make this function more complex
-    #e.g. fetch information from the database.
+    # Validate the information. You can make this function more complex
+    # e.g. fetch information from the database.
     def ValidateLogin(ID : str, NAME : str, PASSWORD : str):
         return True
     Request.encoding='utf-8'
@@ -82,28 +82,28 @@ def TryLogin(Request : HttpRequest):
         Request.session['PASSWORD'] = PASSWORD
     return Response
 
-#Contact page
+# Contact page
 def ContactPage(Request : HttpRequest):
     return render(Request, 'pharmacy_user/contact.html')
 
-#About page
+# About page
 def AboutPage(Request : HttpRequest):
     return render(Request, 'pharmacy_user/about.html')
 
-#Search page
+# Search page
 def SearchPage(Request : HttpRequest, Selected_ : str = ""):
     Request.encoding='utf-8'
-    #If haven't logged in, redirect to home page
+    # If haven't logged in, redirect to home page
     if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
         return redirect("home")
-    #Get all branch names
+    # Get all branch names
     BranchList_ = getAllBranch()
-    #Get the current selected branch name
+    # Get the current selected branch name
     if (Selected_ == ""):
         return redirect(reverse("search") + BranchList_[0])
     if (not Selected_ in BranchList_):
         raise Http404
-    #Search
+    # Search
     if (Request.POST):
         SearchContent_ = Request.POST.get("SEARCH")
     else:
@@ -112,72 +112,72 @@ def SearchPage(Request : HttpRequest, Selected_ : str = ""):
     Context = {"BranchList_" : BranchList_, "Selected_" : Selected_, "SearchContent_" : SearchContent_, "ResultList_" : ResultList_, "UserID_" : Request.session['ID']}
     return render(Request, "pharmacy_user/search.html", Context)
 
-#Account page
+# Account page
 def AccountPage(Request : HttpRequest):
     Request.encoding='utf-8'
-    #If haven't logged in, redirect to home page
+    # If haven't logged in, redirect to home page
     if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
         return redirect("home")
     Context = {"UserName_" : Request.session['NAME']}
     return render(Request, "pharmacy_user/account.html", Context)
 
-#Bill page
+# Bill page
 def BillPage(Request : HttpRequest, Selected_ : str = ""):
     Request.encoding='utf-8'
-    #If haven't logged in, redirect to home page
+    # If haven't logged in, redirect to home page
     if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
         return redirect("home")
-    #Get all branch names
+    # Get all branch names
     BranchList_ = getAllBranch()
-    #Get the current selected branch name
+    # Get the current selected branch name
     if (Selected_ == ""):
         return redirect(reverse("bill") + BranchList_[0])
     if (not Selected_ in BranchList_):
         raise Http404
-    #Get the bills
+    # Get the bills
     Bills_ = getShoppingCart(Request.session['ID'], Selected_)[::-1]
-    #Return the webpage
+    # Return the webpage
     Context = {"BranchList_" : BranchList_, "Selected_" : Selected_, "Bills_" : Bills_, "UserID_" : Request.session['ID']}
     return render(Request, "pharmacy_user/bill.html", Context)
 
-#Checkout page
+# Checkout page
 def CheckoutPage(Request : HttpRequest, Selected_ : str = ""):
-    #Generate a QR code
+    # Generate a QR code
     def GenerateQR(UserID, BrandName, Version = 2, BoxSize = 10, Border = 5):
         QR = qrcode.QRCode(version = Version, box_size = BoxSize, border = Border)
-        # Adding the data to be encoded to the QRCode object
+        #  Adding the data to be encoded to the QRCode object
         QR.add_data(UserID + "_" + BrandName)
-        # Making the entire QR Code space utilized
+        #  Making the entire QR Code space utilized
         QR.make(fit = True)
-        # Generating the QR Code
+        #  Generating the QR Code
         Img = QR.make_image()
-        # Base64 encode
+        #  Base64 encode
         Buffer = BytesIO()
         Img.save(Buffer, format="JPEG")
         return base64.b64encode(Buffer.getvalue()).decode()
     Request.encoding='utf-8'
-    #If haven't logged in, redirect to home page
+    # If haven't logged in, redirect to home page
     if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
         return redirect("home")
-    #Get all branch names
+    # Get all branch names
     BranchList_ = getAllBranch()
-    #Get the current selected branch name
+    # Get the current selected branch name
     if (not Selected_ in BranchList_):
         raise Http404
-    #Get the base64 encoded QR image
+    # Get the base64 encoded QR image
     QRImg64 = GenerateQR(Request.session['ID'], Selected_)
     Context = {"QRCode64_" : QRImg64, "Selected_" : Selected_}
     return render(Request, "pharmacy_user/checkout.html", Context)
 
-#MedicineInfo page
+# MedicineInfo page
 def MedicineInfoPage(Request : HttpRequest, Selected_ : str = "", MediID : str = ""):
     Request.encoding='utf-8'
-    #If haven't logged in, redirect to home page
+    # If haven't logged in, redirect to home page
     if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
         return redirect("home")
-    #Get all branch names
+    # Get all branch names
     BranchList_ = getAllBranch()
-    #Get the current selected branch name
+    # Get the current selected branch name
     if (not Selected_ in BranchList_):
         raise Http404
     MediInfo_ = queryMedicine(MediID, Selected_)

@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'pharmacy_user.apps.PharmacyUserConfig'
+    'pharmacy_user.apps.PharmacyUserConfig',
+    'doctor_interface.apps.DoctorInterfaceConfig'
 ]
 
 MIDDLEWARE = [

@@ -23,6 +23,7 @@ from UserFrontend import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('pharmacy_user/', include('pharmacy_user.urls')),
+    path('doctor_interface/', include('doctor_interface.urls')),
 ]
 
 # Use static() to add url mapping to serve static files during development (only)
