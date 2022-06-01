@@ -1,0 +1,61 @@
+div.container.profile {
+  padding: 10px 20px;
+}
+
+.center {
+  text-align: center;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolue {
+  position: absolute;
+}
+
+div.profile-row {
+  margin-top: 55px;
+}
+
+.absolue.center {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, 0%);
+}
+
+div.alert {
+  width: 40%;
+}
+
+.alert-col > .alert {
+  padding: 10px;
+  border-radius: 0;
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+hr {
+  height: 2px;
+}
+
+.content-right > * {
+  float: right;
+}
+
+.form-btn {
+  min-width: 100px;
+  margin: 0 5px;
+  max-width: 200px;
+}
+
+div.avatar-bg {
+  background: url(https://www.gravatar.com/avatar/1234566?size=200&d=mm);
+  background-position: 50% 50%;
+  height: 200px;
+  width: 200px;
+  background-size: cover;
+  border-radius: 50%;
+  margin-left: calc(50% - 100px);
+}
+

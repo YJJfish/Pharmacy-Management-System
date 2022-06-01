@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>联系我们 - 药房</title>
+    <link rel="stylesheet" href="{% static 'pharmacy_user/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400|Roboto:300,400,700">
+    <link rel="stylesheet" href="{% static 'pharmacy_user/fonts/fontawesome-all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pharmacy_user/fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pharmacy_user/fonts/simple-line-icons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pharmacy_user/fonts/fontawesome5-overrides.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pharmacy_user/css/Animated-Pretty-Product-List-v12.css' %}">
+    <link rel="stylesheet" href="{% static 'pharmacy_user/css/Black-Navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'pharmacy_user/css/Contact-Form-Clean.css' %}">
+    <link rel="stylesheet" href="{% static 'pharmacy_user/css/Features-Boxed.css' %}">
+    <link rel="stylesheet" href="{% static 'pharmacy_user/css/Google-Style-Login.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="{% static 'pharmacy_user/css/Navbar---Apple-1.css' %}">
+    <link rel="stylesheet" href="{% static 'pharmacy_user/css/Navbar---Apple.css' %}">
+    <link rel="stylesheet" href="{% static 'pharmacy_user/css/Pretty-Search-Form.css' %}">
+    <link rel="stylesheet" href="{% static 'pharmacy_user/css/Profile-Edit-Form-1.css' %}">
+    <link rel="stylesheet" href="{% static 'pharmacy_user/css/Profile-Edit-Form.css' %}">
+    <link rel="stylesheet" href="{% static 'pharmacy_user/css/Team-Boxed.css' %}">
+</head>
+
+<body>
+    <header class="text-center text-white masthead" style="background:url({% static 'pharmacy_user/img/background1.jpg' %} )no-repeat center center;background-size:cover;">
+        <div class="overlay" style="background: rgba(0,123,255,0.22);opacity: 1;"></div>
+    </header>
+    <section class="showcase">
+        <div class="container-fluid p-0">
+            <section class="features-boxed">
+                <section class="contact-clean">
+                    <form method="post">
+                        {% csrf_token %}
+                        <h2 class="text-center">联系我们</h2>
+                        <div class="mb-3"><input class="form-control" type="text" name="name" placeholder="用户名"></div>
+                        <div class="mb-3"><input class="form-control" type="email" name="email" placeholder="邮箱"></div>
+                        <div class="mb-3"><textarea class="form-control" name="message" placeholder="信息" rows="14"></textarea></div>
+                        <div class="mb-3"><button class="btn btn-primary" type="submit">发送 </button></div>
+                    </form>
+                </section>
+            </section>
+        </div>
+    </section>
+    <section class="text-center text-white call-to-action" style="background: url({% static 'pharmacy_user/img/background2.jpg' %}) no-repeat center center;background-size: cover;">
+        <div class="overlay"></div>
+    </section>
+    <footer class="bg-light footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 text-center text-lg-start my-auto h-100">
+                    <ul class="list-inline mb-2">
+                        <li class="list-inline-item"><a href="{% url 'about' %}">关于</a></li>
+                        <li class="list-inline-item"><span>⋅</span></li>
+                        <li class="list-inline-item"><a href="{% url 'contact' %}">联系我们</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <nav class="navbar navbar-dark navbar-expand-md fixed-top bg-dark navbar--apple">
+        <div class="container"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#menu"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"><i class="fa fa-th-list"></i></span></button>
+            <div class="collapse navbar-collapse" id="menu">
+                <ul class="navbar-nav flex-grow-1 justify-content-between">
+                    <li class="nav-item d-none d-xs-block d-md-block"><a class="nav-link" href="{% url 'home' %}"><i class="fas fa-hospital apple-logo"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">关于</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">联系我们</a></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <script src="{% static 'pharmacy_user/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'pharmacy_user/js/bs-init.js' %}"></script>
+    <script src="{% static 'pharmacy_user/js/Animated-Pretty-Product-List-v12.js' %}"></script>
+    <script src="{% static 'pharmacy_user/js/Navbar---Apple.js' %}"></script>
+    <script src="{% static 'pharmacy_user/js/Profile-Edit-Form.js' %}"></script>
+</body>
+
+</html>
