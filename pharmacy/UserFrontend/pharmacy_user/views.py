@@ -1,6 +1,8 @@
 from django.http import HttpResponse, HttpRequest, HttpResponseNotFound, Http404
 from django.views.generic import RedirectView
 from django.shortcuts import render, redirect, reverse
+from django.utils.http import urlencode
+from urllib.parse import urlparse, parse_qs
 import qrcode
 import base64
 from io import BytesIO
@@ -17,6 +19,9 @@ if (not jpype.isJVMStarted()):
 # One instance per thread
 JavaAppClass = jpype.JClass("com.example.MyJDBC")
 JavaApp = JavaAppClass()
+
+IPAddr = "127.0.0.1"
+Port = "8000"
 
 # Database interface
 def getAllBranch():
@@ -51,36 +56,22 @@ def LoginPage(Request : HttpRequest):
 # Render index.html or login.html, depending on whether the user has logged.
 def HomePage(Request : HttpRequest):
     Request.encoding='utf-8'
-     # If haven't logged in, redirect to login page
+    # If the url contains user information, store it in session
+    if (Request.get_full_path().find("?") != -1):
+        ParsedURL = urlparse(Request.get_full_path())
+        Dict = parse_qs(ParsedURL.query)
+        if ("userId" in Dict and "userName" in Dict and "token" in Dict):
+            Request.session['Logged'] = True
+            Request.session['ID'] = Dict["userId"][0]
+            Request.session['NAME'] = Dict["userName"][0]
+            Request.session['TOKEN'] = Dict["token"][0]
+    # If haven't logged in, redirect to login page
     if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
-        return redirect("login")
+        #return redirect("login")
+        return redirect("http://124.220.171.17:3000/login"+"?"+urlencode({"redir":IPAddr+":"+Port+Request.get_full_path()}))
     # Render
     Context = {"UserName_" : Request.session['NAME']}
     return render(Request, "pharmacy_user/index.html", Context)
-    
-
-# Try to log in
-def TryLogin(Request : HttpRequest):
-    # Validate the information. You can make this function more complex
-    # e.g. fetch information from the database.
-    def ValidateLogin(ID : str, NAME : str, PASSWORD : str):
-        return True
-    Request.encoding='utf-8'
-    ID = Request.POST.get("ID")
-    NAME = Request.POST.get("NAME")
-    PASSWORD = Request.POST.get("PASSWORD")
-    REMEMBER = Request.POST.get('REMEMBER')
-    Response = redirect("home")
-    if ValidateLogin(ID, NAME, PASSWORD):
-        if REMEMBER:
-            Response.set_cookie('ID', ID, max_age=60*5)
-            Response.set_cookie('NAME', NAME, max_age=60*5)
-            Response.set_cookie('PASSWORD', PASSWORD, max_age=60*5)
-        Request.session['Logged'] = True
-        Request.session['ID'] = ID
-        Request.session['NAME'] = NAME
-        Request.session['PASSWORD'] = PASSWORD
-    return Response
 
 # Contact page
 def ContactPage(Request : HttpRequest):

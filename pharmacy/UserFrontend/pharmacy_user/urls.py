@@ -9,7 +9,6 @@ urlpatterns = [
     path('', RedirectView.as_view(url='home')),
     path("login/", views.LoginPage, name="login"),
     path("home/", views.HomePage, name="home"),
-    path('trylogin/', views.TryLogin, name="trylogin"),
     path('contact/', views.ContactPage, name="contact"),
     path('about/', views.AboutPage, name="about"),
     path('search/', views.SearchPage, name="search"),
