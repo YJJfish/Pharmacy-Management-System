@@ -8,4 +8,5 @@ urlpatterns = [
     # Invoked by Doctor Frontend, in order to manipulate the database
     path('querymedicine/', views.QueryMedicine),
     path('prescmedicine/', views.PrescMedicine),
+    path('querycart/', views.QueryCart),
 ]

@@ -50,8 +50,8 @@ def commitBill(UserID : str, BranchName : str):
 #       ["002","国药","头孢","头孢就酒，越喝越勇","一日三次","三高人群",24.0,"https://s2.loli.net/2022/05/06/.png",10, "盒"],
 #   ]
 def QueryMedicine(Request : HttpRequest):
-    # We only accept POST package
-    if (Request.method != "POST"):
+    # We only accept GET package
+    if (Request.method != "GET"):
         return Http404
     # Use empty keywords, to search for all medicine
     SearchContent = ""
@@ -76,8 +76,8 @@ def QueryMedicine(Request : HttpRequest):
 #   }
 # Return: 1 for success, 0 for failure
 def PrescMedicine(Request : HttpRequest):
-    # We only accept POST package
-    if (Request.method != "POST"):
+    # We only accept GET package
+    if (Request.method != "GET"):
         return Http404
     # Decode package body
     Data = json.loads(Request.body.decode("utf-8"))
@@ -94,3 +94,39 @@ def PrescMedicine(Request : HttpRequest):
         if (not Suc):
             return HttpResponse(0)
     return HttpResponse(1)
+
+# Invoked by Doctor Frontend, in order to get users' pharmacy cart.
+# URL: doctor_interface/querycart/
+# Params: Json package
+#   Params format:
+#   {
+#       "UserID" : UserID
+#   }
+# Return: Information of the user shopping cart : string
+#   A shopping cart is made up of several bills:
+#   Cart = [Bill1, Bill2, Bill3]
+#   Every bill consists of a medicine list (pos 0), bill time (pos 1), bill id (pos 2), queue number (pos 3), counter id (pos 4):
+#   Bill1 = [MediListOfBill1, "2022-5-28", "U14bTQFS", 59, 3]
+#   Every medicine list is a list of medicine:
+#   MediListOfBill1 = 
+#   [
+#       [ID, Brand, Name, Description, Usage, Taboo, Price, ImageURL, Quantity],
+#       ["002","国药","头孢","头孢就酒，越喝越勇","一日三次","三高人群",24.0,"https://s2.loli.net/2022/05/06/.png",10],
+#       ["001","国药","阿司匹林","解热镇痛","一日三次","三高人群",25.0,"https://s2.loli.net/2022/05/06/.png",50]
+#   ]
+#   Finally, the return value is:
+#   return str(Cart)
+def QueryCart(Request : HttpRequest):
+    # We only accept GET package
+    if (Request.method != "GET"):
+        return Http404
+    # Decode package body
+    Data = json.loads(Request.body.decode("utf-8"))
+    # Get the user id from the package body
+    UserID = Data.get("UserID") # Type: str
+    # Use default branch
+    BranchName=getAllBranch()[0]
+    # Call the interface of the database
+    Ret = getShoppingCart(UserID, BranchName)
+    # Return
+    return HttpResponse(str(Ret))
