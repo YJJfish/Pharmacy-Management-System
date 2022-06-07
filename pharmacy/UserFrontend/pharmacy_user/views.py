@@ -10,7 +10,7 @@ import json
 import jpype
 
 
-JavaClassPath = "../DatabaseBackend/se-pharmacy/bin/src/main/java/"
+JavaClassPath = "../DatabaseBackend/se-pharmacy/target/classes/"
 JarPath = "../DatabaseBackend/se-pharmacy/bin/src/main/java/mysql-connector-java-8.0.27.jar"
 
 if (not jpype.isJVMStarted()):
