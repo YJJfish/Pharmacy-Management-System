@@ -20,8 +20,10 @@ JavaApp = JavaAppClass()
 # Database interface
 def getAllBranch():
     return eval(str(JavaApp.getAllBranch()))
-def searchMedicine(SearchContent : str, BranchName : str):
-    return eval(str(JavaApp.searchMedicine(SearchContent, BranchName)))
+def searchMedicine(SearchContent : str, BranchName : str, PageID : int = 1):
+    if (not isinstance(PageID, int)):
+        PageID = int(PageID)
+    return eval(str(JavaApp.searchMedicine(SearchContent, BranchName, PageID)))
 def queryMedicine(MediID : str, BranchName : str):
     return eval(str(JavaApp.queryMedicine(MediID, BranchName)))[0]
 def getShoppingCart(UserID : str, BranchName : str):
@@ -43,13 +45,16 @@ def commitBill(UserID : str, BranchName : str):
 
 # Invoked by Doctor Frontend, in order to get the medicine information.
 # URL: doctor_interface/querymedicine/
-# Params: None
+# Params: PageID (optional)
 # Return: Information of all medicine : string
 #   Return format:
 #   [
-#       [ID, Brand, Name, Description, Usage, Taboo, Price, ImageURL, Stock, Units],
-#       ["001","国药","阿司匹林","解热镇痛","一日三次","三高人群",25.0,"https://s2.loli.net/2022/05/06/.png",50, "盒"]
-#       ["002","国药","头孢","头孢就酒，越喝越勇","一日三次","三高人群",24.0,"https://s2.loli.net/2022/05/06/.png",10, "盒"],
+#       [
+#           [ID, Brand, Name, Description, Usage, Taboo, Price, ImageURL, Stock, Units, Prescripted],
+#           ["001","国药","阿司匹林","解热镇痛","一日三次","三高人群",25.0,"https://s2.loli.net/2022/05/06/.png",50, "盒", 0]
+#           ["002","国药","头孢","头孢就酒，越喝越勇","一日三次","三高人群",24.0,"https://s2.loli.net/2022/05/06/.png",10, "盒", 0],
+#       ],
+#       TotalPages
 #   ]
 def QueryMedicine(Request : HttpRequest):
     # We only accept GET package
@@ -59,8 +64,15 @@ def QueryMedicine(Request : HttpRequest):
     SearchContent = ""
     # Use default branch
     BranchName=getAllBranch()[0]
+    # Decode URL
+    PageID = 1
+    if (Request.get_full_path().find("?") != -1):
+        ParsedURL = urlparse(Request.get_full_path())
+        Dict = parse_qs(ParsedURL.query)
+        if ("PageID" in Dict):
+            PageID = int(Dict["PageID"][0])
     # Call the interface of the database
-    Ret = searchMedicine(SearchContent, BranchName)
+    Ret = searchMedicine(SearchContent, BranchName, PageID)
     # Return
     return HttpResponse(str(Ret))
 
@@ -79,7 +91,7 @@ def QueryMedicine(Request : HttpRequest):
 # Return: 1 for success, 0 for failure
 def PrescMedicine(Request : HttpRequest):
     # We only accept GET package
-    if (Request.method != "GET"):
+    if (Request.method != "POST"):
         return Http404
     # Decode package body
     Data = json.loads(Request.body.decode("utf-8"))
@@ -112,9 +124,9 @@ def PrescMedicine(Request : HttpRequest):
 #   Every medicine list is a list of medicine:
 #   MediListOfBill1 = 
 #   [
-#       [ID, Brand, Name, Description, Usage, Taboo, Price, ImageURL, Quantity],
-#       ["002","国药","头孢","头孢就酒，越喝越勇","一日三次","三高人群",24.0,"https://s2.loli.net/2022/05/06/.png",10],
-#       ["001","国药","阿司匹林","解热镇痛","一日三次","三高人群",25.0,"https://s2.loli.net/2022/05/06/.png",50]
+#       [ID, Brand, Name, Description, Usage, Taboo, Price, ImageURL, Quantity,  Units, Prescripted],
+#       ["002","国药","头孢","头孢就酒，越喝越勇","一日三次","三高人群",24.0,"https://s2.loli.net/2022/05/06/.png",10, "盒", 0],
+#       ["001","国药","阿司匹林","解热镇痛","一日三次","三高人群",25.0,"https://s2.loli.net/2022/05/06/.png",50, "盒", 0]
 #   ]
 #   Finally, the return value is:
 #   return str(Cart)
@@ -128,10 +140,11 @@ def QueryCart(Request : HttpRequest):
     if not ("UserID" in Dict):
         return Http404
     # Get the user id from the URL
-    UserID = Dict("UserID")[0] # Type: str
+    UserID = Dict["UserID"][0] # Type: str
     # Use default branch
     BranchName=getAllBranch()[0]
     # Call the interface of the database
     Ret = getShoppingCart(UserID, BranchName)
+    # Pack into json package
     # Return
-    return HttpResponse(str(Ret))
+    return HttpResponse(json.dumps(Ret))

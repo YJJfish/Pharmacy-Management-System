@@ -21,8 +21,11 @@ if (not jpype.isJVMStarted()):
 JavaAppClass = jpype.JClass("com.example.MyJDBC")
 JavaApp = JavaAppClass()
 
+#IPAddr = "124.220.171.17"
+#Port = "6666"
 IPAddr = "127.0.0.1"
-Port = "8000"
+Port = "80000"
+LoginAddr = "http://124.220.171.17:3000/login"
 
 # Database interface
 def getAllBranch():
@@ -71,7 +74,7 @@ def HomePage(Request : HttpRequest):
     # If haven't logged in, redirect to login page
     if not (Request.session.has_key('Logged') and Request.session['Logged']==True):
         #return redirect("login")
-        return redirect("http://124.220.171.17:3000/login"+"?"+urlencode({"redir":IPAddr+":"+Port+Request.get_full_path()}))
+        return redirect(LoginAddr+"?"+urlencode({"redir":IPAddr+":"+Port+Request.get_full_path()}))
     # Render
     Context = {"UserName_" : Request.session['NAME']}
     return render(Request, "pharmacy_user/index.html", Context)
