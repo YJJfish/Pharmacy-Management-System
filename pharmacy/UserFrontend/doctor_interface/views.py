@@ -1,11 +1,13 @@
 from django.http import HttpResponse, HttpRequest, HttpResponseNotFound, Http404
 from django.views.generic import RedirectView
 from django.shortcuts import render, redirect, reverse
+from django.utils.http import urlencode
+from urllib.parse import urlparse, parse_qs
 import json
 import jpype
 
 
-JavaClassPath = "../DatabaseBackend/se-pharmacy/bin/src/main/java/"
+JavaClassPath = "../DatabaseBackend/se-pharmacy/target/classes/"
 JarPath = "../DatabaseBackend/se-pharmacy/bin/src/main/java/mysql-connector-java-8.0.27.jar"
 
 if (not jpype.isJVMStarted()):
@@ -120,10 +122,13 @@ def QueryCart(Request : HttpRequest):
     # We only accept GET package
     if (Request.method != "GET"):
         return Http404
-    # Decode package body
-    Data = json.loads(Request.body.decode("utf-8"))
-    # Get the user id from the package body
-    UserID = Data.get("UserID") # Type: str
+    # Decode URL
+    ParsedURL = urlparse(Request.get_full_path())
+    Dict = parse_qs(ParsedURL.query)
+    if not ("UserID" in Dict):
+        return Http404
+    # Get the user id from the URL
+    UserID = Dict("UserID")[0] # Type: str
     # Use default branch
     BranchName=getAllBranch()[0]
     # Call the interface of the database

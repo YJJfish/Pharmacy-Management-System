@@ -8,6 +8,7 @@ import base64
 from io import BytesIO
 import json
 import jpype
+from django.views.decorators.csrf import csrf_exempt
 
 
 JavaClassPath = "../DatabaseBackend/se-pharmacy/target/classes/"
@@ -26,8 +27,10 @@ Port = "8000"
 # Database interface
 def getAllBranch():
     return eval(str(JavaApp.getAllBranch()))
-def searchMedicine(SearchContent : str, BranchName : str):
-    return eval(str(JavaApp.searchMedicine(SearchContent, BranchName)))
+def searchMedicine(SearchContent : str, BranchName : str, PageID : int = 1):
+    if (not isinstance(PageID, int)):
+        PageID = int(PageID)
+    return eval(str(JavaApp.searchMedicine(SearchContent, BranchName, PageID)))
 def queryMedicine(MediID : str, BranchName : str):
     return eval(str(JavaApp.queryMedicine(MediID, BranchName)))[0]
 def getShoppingCart(UserID : str, BranchName : str):
