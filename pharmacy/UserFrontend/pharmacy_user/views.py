@@ -8,7 +8,6 @@ import base64
 from io import BytesIO
 import json
 import jpype
-from django.views.decorators.csrf import csrf_exempt
 
 
 JavaClassPath = "../DatabaseBackend/se-pharmacy/target/classes/"
@@ -21,10 +20,14 @@ if (not jpype.isJVMStarted()):
 JavaAppClass = jpype.JClass("com.example.MyJDBC")
 JavaApp = JavaAppClass()
 
-#IPAddr = "124.220.171.17"
-#Port = "6666"
-IPAddr = "127.0.0.1"
-Port = "80000"
+RunLocally = True
+if (RunLocally):
+    IPAddr = "127.0.0.1"
+    Port = "8000"
+else:
+    IPAddr = "124.220.171.17"
+    Port = "6666"
+
 LoginAddr = "http://124.220.171.17:3000/login"
 
 # Database interface
@@ -35,7 +38,7 @@ def searchMedicine(SearchContent : str, BranchName : str, PageID : int = 1):
         PageID = int(PageID)
     return eval(str(JavaApp.searchMedicine(SearchContent, BranchName, PageID)))
 def queryMedicine(MediID : str, BranchName : str):
-    return eval(str(JavaApp.queryMedicine(MediID, BranchName)))[0]
+    return eval(str(JavaApp.queryMedicine(MediID, BranchName)))
 def getShoppingCart(UserID : str, BranchName : str):
     return eval(str(JavaApp.getShoppingCart(UserID, BranchName)))
 def setShoppingCart(UserID : str, MediID : str, BranchName : str, Num : int):
@@ -100,13 +103,32 @@ def SearchPage(Request : HttpRequest, Selected_ : str = ""):
         return redirect(reverse("search") + BranchList_[0])
     if (not Selected_ in BranchList_):
         raise Http404
+    # Get the current page
+    PageID = 1
+    if (Request.get_full_path().find("?") != -1):
+        ParsedURL = urlparse(Request.get_full_path())
+        Dict = parse_qs(ParsedURL.query)
+        if ("PageID" in Dict):
+            PageID = int(Dict["PageID"][0])
+            if (PageID <= 0):
+                return Http404
     # Search
     if (Request.POST):
         SearchContent_ = Request.POST.get("SEARCH")
     else:
         SearchContent_ = ""
-    ResultList_ = searchMedicine(SearchContent_, Selected_)
-    Context = {"BranchList_" : BranchList_, "Selected_" : Selected_, "SearchContent_" : SearchContent_, "ResultList_" : ResultList_, "UserID_" : Request.session['ID']}
+    Ret = searchMedicine(SearchContent_, Selected_, PageID)
+    ResultList_ = Ret["MediList"]
+    NumPages_ = Ret["NumPages"]
+    if (NumPages_ <= 7):
+        PageList_ = [str(i+1) for i in range(NumPages_)]
+    elif (PageID <= 4):
+        PageList_ = [str(i+1) for i in range(5)]+["...", str(NumPages_)]
+    elif (PageID >= NumPages_-3):
+        PageList_ = ["1", "..."]+[str(i+1) for i in range(NumPages_-5,NumPages_)]
+    else:
+        PageList_ = ["1", "..."]+[str(i+1) for i in range(PageID-3,PageID+2)]+["...", str(NumPages_)]
+    Context = {"BranchList_" : BranchList_, "Selected_" : Selected_, "SearchContent_" : SearchContent_, "ResultList_" : ResultList_, "UserID_" : Request.session['ID'], "PageList_" : PageList_, "CurrPage_" : str(PageID)}
     return render(Request, "pharmacy_user/search.html", Context)
 
 # Account page
@@ -132,7 +154,9 @@ def BillPage(Request : HttpRequest, Selected_ : str = ""):
     if (not Selected_ in BranchList_):
         raise Http404
     # Get the bills
-    Bills_ = getShoppingCart(Request.session['ID'], Selected_)[::-1]
+    Ret = getShoppingCart(Request.session['ID'], Selected_)
+    Bills_ = Ret["BillList"][::-1]
+    print(Bills_)
     # Return the webpage
     Context = {"BranchList_" : BranchList_, "Selected_" : Selected_, "Bills_" : Bills_, "UserID_" : Request.session['ID']}
     return render(Request, "pharmacy_user/bill.html", Context)

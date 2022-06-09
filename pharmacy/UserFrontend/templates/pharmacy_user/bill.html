@@ -69,59 +69,59 @@
         </div>
         <div id="BillContainer">
         {% for Bill_ in Bills_ %}
-        <div class="container" id="{{Bill_.2}}_Bill">
+        <div class="container" id="{{Bill_.BillID}}_Bill">
             <div class="content" style="border-style: solid;">
             <div class="row" style="padding: 20px;"></div>
             <div class="row g-0">
                 <div class="col">
                     <div class="row">
                         <div class="col" style="text-align:center;">
-                            {% if Bill_.3 == -1 %}
-                                <h2>订单号: {{Bill_.2}}(未支付)</h2>
+                            {% if Bill_.QueueID == -1 %}
+                                <h2>订单号: {{Bill_.BillID}}(未支付)</h2>
                             {% else %}
-                                <h2>订单号: {{Bill_.2}}</h2>
+                                <h2>订单号: {{Bill_.BillID}}</h2>
                             {% endif %}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col" style="text-align:right;padding-right:30px">
-                            <h5>{{Bill_.1}}</h5>
+                            <h5>{{Bill_.Date}}</h5>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <div class="row product-list dev" id="{{Bill_.2}}_Products">
-                                {% for Item_ in Bill_.0 %}
-                                <div class="col-sm-6 col-md-4 product-item animation-element" id="{{Bill_.2}}_{{Item_.0}}">
+                            <div class="row product-list dev" id="{{Bill_.BillID}}_Products">
+                                {% for Item_ in Bill_.ItemList %}
+                                <div class="col-sm-6 col-md-4 product-item animation-element" id="{{Bill_.BillID}}_{{Item_.ID}}">
                                     <div class="product-container">
                                         <div class="row">
-                                            <div class="col-md-12"><a class="product-image" href="{% url 'medicineinfo' %}{{Selected_}}/{{Item_.0}}"><img src="{{Item_.7}}"></a></div>
+                                            <div class="col-md-12"><a class="product-image" href="{% url 'medicineinfo' %}{{Selected_}}/{{Item_.ID}}"><img src="{{Item_.URL}}"></a></div>
                                         </div>
                                         <div class="row">
                                             <div class="col-8">
-                                                <h2><a href="{% url 'medicineinfo' %}{{Selected_}}/{{Item_.0}}">{{Item_.2}}</a></h2>
+                                                <h2><a href="{% url 'medicineinfo' %}{{Selected_}}/{{Item_.ID}}">{{Item_.Name}}</a></h2>
                                             </div>
                                             <div class="col-8">
-                                                {{Item_.0}} {{Item_.1}}
+                                                {{Item_.ID}} {{Item_.Brand}}
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
-                                                <p class="product-description">{{Item_.3}}</p>
+                                                <p class="product-description">{{Item_.Description}}</p>
                                                 <div class="row">
                                                     <div class="col-6 col-md-4 quantity">
-                                                        {% if Bill_.3 == -1 and not Item_.9 %}
+                                                        {% if Bill_.QueueID == -1 and not Item_.Prescripted %}
                                                             <input type="number" class="form-control quantity-input" min="0"
                                                             oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null"
-                                                            value="{{Item_.8}}" id="{{Bill_.2}}_{{Item_.0}}_Quantity"
-                                                            onchange="SetItem('{{Bill_.1}}', '{{UserID_}}', '{{Item_.0}}', '{{Selected_}}', this.value)"
+                                                            value="{{Item_.Num}}" id="{{Bill_.BillID}}_{{Item_.ID}}_Quantity"
+                                                            onchange="SetItem('{{Bill_.BillID}}', '{{UserID_}}', '{{Item_.ID}}', '{{Selected_}}', this.value)"
                                                             autocomplete="off">
                                                         {% else %}
-                                                            <input type="number" class="form-control quantity-input" value="{{Item_.8}}" id="{{Bill_.2}}_{{Item_.0}}_Quantity" readonly="readonly" autocomplete="off">
+                                                            <input type="number" class="form-control quantity-input" value="{{Item_.Num}}" id="{{Bill_.BillID}}_{{Item_.ID}}_Quantity" readonly="readonly" autocomplete="off">
                                                         {% endif %}
                                                     </div>
                                                     <div class="col-6">
-                                                        <p class="product-price" id="{{Bill_.2}}_{{Item_.0}}_Price">￥{{Item_.6}}</p>
+                                                        <p class="product-price" id="{{Bill_.BillID}}_{{Item_.ID}}_Price">￥{{Item_.Price}}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -134,13 +134,13 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <h1 id="{{Bill_.2}}_Sum">总价: ￥</h1>
+                            <h1 id="{{Bill_.BillID}}_Sum">总价: ￥</h1>
                         </div>
                     </div>
-                    {% if Bill_.3 == -1 %}
-                        <button class="btn btn-primary btn-lg" id="{{Bill_.2}}_Checkout" type="button" onclick="Checkout('{{UserID_}}', '{{Selected_}}')">支付</button>
+                    {% if Bill_.QueueID == -1 %}
+                        <button class="btn btn-primary btn-lg" id="{{Bill_.BillID}}_Checkout" type="button" onclick="Checkout('{{UserID_}}', '{{Selected_}}')">支付</button>
                     {% else %}
-                        <button class="btn btn-success btn-lg" id="{{Bill_.2}}_Checkout" type="button" disabled="" >排队号: {{Bill_.3}}. 柜台号 {{Bill_.4}}</button>
+                        <button class="btn btn-success btn-lg" id="{{Bill_.BillID}}_Checkout" type="button" disabled="" >排队号: {{Bill_.QueueID}}. 柜台号 {{Bill_.WindowID}}</button>
                     {% endif %}
                 </div>
             </div>
