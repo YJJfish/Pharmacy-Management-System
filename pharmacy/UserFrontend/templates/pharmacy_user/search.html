@@ -122,7 +122,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <p class="product-description">{{Item_.Description}}</p>
+                                <p class="product-description">{{ Item_.Description|truncatechars:100 }}</p>
                                 <div class="row">
                                     <div class="col-6">
                                         {% if Item_.Prescripted == 1 %}

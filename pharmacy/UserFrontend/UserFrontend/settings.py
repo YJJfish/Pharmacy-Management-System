@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'pharmacy_user.apps.PharmacyUserConfig',
-    'doctor_interface.apps.DoctorInterfaceConfig'
+    'doctor_interface.apps.DoctorInterfaceConfig',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'UserFrontend.urls'
@@ -132,3 +134,37 @@ STATICFILES_DIRS = [
 ]
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = (
+  'http://*',
+  'http://124.220.171.17:*',
+  'https://124.220.171.17:*',
+)
+CORS_ALLOW_METHODS = (
+	'DELETE',
+	'GET',
+	'OPTIONS',
+	'PATCH',
+	'POST',
+	'PUT',
+	'VIEW',
+)
+
+CORS_ALLOW_HEADERS = (
+    
+    'authorization',
+	'content-type',
+    # 常用就上面两个
+	'XMLHttpRequest',
+	'X_FILENAME',
+	'accept-encoding',
+	'dnt',
+	'origin',
+	'user-agent',
+	'x-csrftoken',
+	'x-requested-with',
+	'Pragma',
+)
