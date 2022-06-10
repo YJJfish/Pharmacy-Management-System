@@ -46,7 +46,7 @@ def commitBill(UserID : str, BranchName : str):
 
 # Invoked by Doctor Frontend, in order to get the medicine information.
 # URL: doctor_interface/querymedicine/
-# Params: PageID (optional, default=1), BranchName (optional, default="玉古路店")
+# Params: PageID (optional, default=1), BranchName (optional, default="玉古路店"), SearchContent (optional, default="")
 #   For example: doctor_interface/querymedicine/?PageID=3
 # Return: Json package of all medicine in the specified page
 #   Return format:
@@ -84,9 +84,11 @@ def QueryMedicine(Request : HttpRequest):
             if (PageID <= 0):
                 return Http404
         if ("BranchName" in Dict):
-            BranchName = int(Dict["BranchName"][0])
+            BranchName = Dict["BranchName"][0]
             if not (BranchName in Branches):
                 return Http404
+        if ("SearchContent" in Dict):
+            SearchContent = Dict["SearchContent"][0]
     # Call the interface of the database
     Ret = searchMedicine(SearchContent, BranchName, PageID)
     # Return
