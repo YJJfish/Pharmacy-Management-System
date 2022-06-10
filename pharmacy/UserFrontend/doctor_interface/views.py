@@ -108,6 +108,7 @@ def QueryMedicine(Request : HttpRequest):
 #       "branch_name" : branch_name (optional, default="玉古路店")
 #   }
 # Return: 1 for success, 0 for failure
+@csrf_exempt
 def PrescMedicine(Request : HttpRequest):
     # We only accept POST package
     if (Request.method != "POST"):
